@@ -173,6 +173,29 @@
             color: #e2e8f0;
             margin-top: 0.5rem;
         }
+        .model-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .model-item {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.8rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+        }
+        .model-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .model-item span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
         footer {
             text-align: center;
             color: var(--text-muted);
@@ -203,6 +226,42 @@
                 </div>
             </div>
 
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Exposed Models & Quantization Subtypes</h3>
+            <div class="model-list">
+                <div class="model-item">
+                    <strong>Qwen3.6-35B-A3B-UD-Q4_K_XL</strong>
+                    <span>35B MoE • Q4_K_XL Quant</span>
+                </div>
+                <div class="model-item">
+                    <strong>Qwen3.6-27B-UD-Q4_K_XL</strong>
+                    <span>27B Dense • Q4_K_XL Quant</span>
+                </div>
+                <div class="model-item">
+                    <strong>Qwen3.6-27B-Q4_K_M</strong>
+                    <span>27B Dense • Q4_K_M Quant</span>
+                </div>
+                <div class="model-item">
+                    <strong>Qwen3.5-35B-A3B-MXFP4_MOE</strong>
+                    <span>35B MoE • MXFP4 Quant</span>
+                </div>
+                <div class="model-item">
+                    <strong>Qwen3.5-4B-UD-Q4_K_XL</strong>
+                    <span>4B Dense • Q4_K_XL (Default Anthropic)</span>
+                </div>
+                <div class="model-item">
+                    <strong>Fara1.5-27B-Q4_K_M</strong>
+                    <span>27B Fara 1.5 • Q4_K_M Quant</span>
+                </div>
+                <div class="model-item">
+                    <strong>fara1.5-27b / fara1.5</strong>
+                    <span>27B Fara 1.5 Model Alias</span>
+                </div>
+                <div class="model-item">
+                    <strong>bge-small-en-v1.5-f16</strong>
+                    <span>Embedding Model • F16</span>
+                </div>
+            </div>
+
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
 export ANTHROPIC_API_KEY="sk-dummy"
@@ -215,7 +274,7 @@ export OPENAI_API_KEY="sk-dummy"
 # Python OpenAI SDK Example:
 # from openai import OpenAI
 # client = OpenAI(base_url="<span id="openai-sdk-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>", api_key="sk-dummy")
-# response = client.chat.completions.create(model="qwen3.6-35b", messages=[{"role": "user", "content": "Hello"}])</pre>
+# response = client.chat.completions.create(model="Qwen3.6-35B-A3B-UD-Q4_K_XL", messages=[{"role": "user", "content": "Hello"}])</pre>
         </div>
 
         <div class="card">
@@ -225,7 +284,7 @@ export OPENAI_API_KEY="sk-dummy"
             </div>
             <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and model management.</p>
             <div class="url-box">
-                <a id="unsloth-url" href="https://shelf-plants-shark-thunder.trycloudflare.com" target="_blank"><span id="unsloth-text">https://shelf-plants-shark-thunder.trycloudflare.com</span></a>
+                <a id="unsloth-url" href="https://achieving-fell-enter-exceed.trycloudflare.com" target="_blank"><span id="unsloth-text">https://achieving-fell-enter-exceed.trycloudflare.com</span></a>
                 <div class="actions-row">
                     <button class="btn" onclick="checkUnslothStatus()">Check Status</button>
                     <button class="btn" onclick="copyText('unsloth-text')">Copy URL</button>
