@@ -1,7 +1,7 @@
 {
   "anthropic_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
-  "unsloth_studio_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
+  "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
   "models": {
     "Qwen3.6-35B-A3B-UD-Q4_K_XL": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf:latest",
     "qwen3.6-35b": "qwen3.6-35b:latest",
@@ -17,5 +17,5 @@
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
-  "updated_at": "2026-08-08T01:58:11.447807+00:00"
+  "updated_at": "2026-08-08T01:59:40.706143+00:00"
 }
