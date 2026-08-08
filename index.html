@@ -175,7 +175,7 @@
         }
         .model-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
             gap: 0.75rem;
             margin-top: 0.75rem;
         }
@@ -183,18 +183,23 @@
             background: var(--code-bg);
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 0.6rem 0.8rem;
+            padding: 0.65rem 0.85rem;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.85rem;
         }
         .model-item strong {
             color: var(--accent);
             display: block;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
+            word-break: break-all;
         }
         .model-item span {
             color: var(--text-muted);
             font-size: 0.75rem;
+        }
+        .size-tag {
+            color: var(--accent-green);
+            font-weight: 600;
         }
         footer {
             text-align: center;
@@ -226,39 +231,43 @@
                 </div>
             </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Exposed Models & Quantization Subtypes</h3>
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Exposed Models, Quantization Subtypes & Sizes</h3>
             <div class="model-list">
                 <div class="model-item">
                     <strong>Qwen3.6-35B-A3B-UD-Q4_K_XL</strong>
-                    <span>35B MoE • Q4_K_XL Quant</span>
+                    <span>35B MoE • Q4_K_XL • <span class="size-tag">22 GB</span></span>
+                </div>
+                <div class="model-item">
+                    <strong>qwen3.6-35b</strong>
+                    <span>35B MoE Alias • <span class="size-tag">22 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>Qwen3.6-27B-UD-Q4_K_XL</strong>
-                    <span>27B Dense • Q4_K_XL Quant</span>
+                    <span>27B Dense • Q4_K_XL • <span class="size-tag">17 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>Qwen3.6-27B-Q4_K_M</strong>
-                    <span>27B Dense • Q4_K_M Quant</span>
+                    <span>27B Dense • Q4_K_M • <span class="size-tag">17 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>Qwen3.5-35B-A3B-MXFP4_MOE</strong>
-                    <span>35B MoE • MXFP4 Quant</span>
+                    <span>35B MoE • MXFP4 • <span class="size-tag">21 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>Qwen3.5-4B-UD-Q4_K_XL</strong>
-                    <span>4B Dense • Q4_K_XL (Default Anthropic)</span>
+                    <span>4B Dense • Q4_K_XL • <span class="size-tag">3.0 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>Fara1.5-27B-Q4_K_M</strong>
-                    <span>27B Fara 1.5 • Q4_K_M Quant</span>
+                    <span>27B Fara 1.5 • Q4_K_M • <span class="size-tag">17 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>fara1.5-27b / fara1.5</strong>
-                    <span>27B Fara 1.5 Model Alias</span>
+                    <span>27B Fara 1.5 Aliases • <span class="size-tag">17 GB</span></span>
                 </div>
                 <div class="model-item">
                     <strong>bge-small-en-v1.5-f16</strong>
-                    <span>Embedding Model • F16</span>
+                    <span>Embedding • F16 • <span class="size-tag">67 MB</span></span>
                 </div>
             </div>
 
@@ -284,7 +293,7 @@ export OPENAI_API_KEY="sk-dummy"
             </div>
             <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and model management.</p>
             <div class="url-box">
-                <a id="unsloth-url" href="https://shelf-plants-shark-thunder.trycloudflare.com" target="_blank"><span id="unsloth-text">https://shelf-plants-shark-thunder.trycloudflare.com</span></a>
+                <a id="unsloth-url" href="https://achieving-fell-enter-exceed.trycloudflare.com" target="_blank"><span id="unsloth-text">https://achieving-fell-enter-exceed.trycloudflare.com</span></a>
                 <div class="actions-row">
                     <button class="btn" onclick="checkUnslothStatus()">Check Status</button>
                     <button class="btn" onclick="copyText('unsloth-text')">Copy URL</button>
