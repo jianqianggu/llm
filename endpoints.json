@@ -1,12 +1,12 @@
 {
   "anthropic_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
-  "unsloth_studio_url": "https://developing-recipes-sometimes-avenue.trycloudflare.com",
+  "unsloth_studio_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
   "models": {
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "qwen3.6-35b": "qwen3.6-35b:latest"
   },
-  "updated_at": "2026-08-08T01:54:57.137154+00:00"
+  "updated_at": "2026-08-08T01:57:40.098048+00:00"
 }
