@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>LLM & Unsloth Live Endpoints</title>
     <style>
         :root {
@@ -185,7 +186,7 @@
         <header>
             <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
             <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio</p>
-            <button class="btn btn-accent" onclick="checkAllStatus()">⚡ Test All Endpoints</button>
+            <button class="btn btn-accent" onclick="loadEndpointsAndCheck()">⚡ Test All Endpoints</button>
         </header>
 
         <div class="card">
@@ -224,22 +225,40 @@ claude</pre>
 
         <footer>
             Updated dynamically via GitHub Pages • <a href="endpoints.json" style="color: var(--accent);">endpoints.json</a>
+            <div id="last-updated" style="margin-top: 0.4rem; color: var(--text-muted); font-size: 0.75rem;"></div>
         </footer>
     </div>
 
     <script>
-        // Handle redirect parameter
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('redirect') === 'proxy') {
-            window.location.href = document.getElementById('litellm-url').href;
-        } else if (params.get('redirect') === 'unsloth') {
-            window.location.href = document.getElementById('unsloth-url').href;
-        }
-
         function setBadge(badgeId, state, text) {
             const badge = document.getElementById(badgeId);
-            badge.className = `badge badge-${state}`;
-            badge.textContent = text;
+            if (badge) {
+                badge.className = `badge badge-${state}`;
+                badge.textContent = text;
+            }
+        }
+
+        async function updateUrlsFromEndpointJson() {
+            try {
+                const res = await fetch('endpoints.json?t=' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.anthropic_base_url) {
+                        document.getElementById('litellm-url').href = data.anthropic_base_url;
+                        document.getElementById('litellm-text').textContent = data.anthropic_base_url;
+                        document.getElementById('cli-url').textContent = data.anthropic_base_url;
+                    }
+                    if (data.unsloth_studio_url) {
+                        document.getElementById('unsloth-url').href = data.unsloth_studio_url;
+                        document.getElementById('unsloth-text').textContent = data.unsloth_studio_url;
+                    }
+                    if (data.updated_at) {
+                        document.getElementById('last-updated').textContent = 'Server last updated: ' + new Date(data.updated_at).toLocaleString();
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load endpoints.json:', err);
+            }
         }
 
         async function checkProxyStatus() {
@@ -278,14 +297,15 @@ claude</pre>
             }
         }
 
-        function checkAllStatus() {
+        async function loadEndpointsAndCheck() {
+            await updateUrlsFromEndpointJson();
             checkProxyStatus();
             checkUnslothStatus();
         }
 
-        // Auto-test on load after 500ms
+        // Auto-test on load
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(checkAllStatus, 500);
+            loadEndpointsAndCheck();
         });
 
         function copyText(id) {
