@@ -185,7 +185,7 @@
     <div class="container">
         <header>
             <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
-            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio</p>
+            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio (GPU Host)</p>
             <button class="btn btn-accent" onclick="loadEndpointsAndCheck()">⚡ Test All Endpoints</button>
         </header>
 
@@ -230,6 +230,10 @@ claude</pre>
     </div>
 
     <script>
+        function cleanUrl(url) {
+            return url.trim().replace(/\/+$/, '');
+        }
+
         function setBadge(badgeId, state, text) {
             const badge = document.getElementById(badgeId);
             if (badge) {
@@ -244,13 +248,15 @@ claude</pre>
                 if (res.ok) {
                     const data = await res.json();
                     if (data.anthropic_base_url) {
-                        document.getElementById('litellm-url').href = data.anthropic_base_url;
-                        document.getElementById('litellm-text').textContent = data.anthropic_base_url;
-                        document.getElementById('cli-url').textContent = data.anthropic_base_url;
+                        const litellmClean = cleanUrl(data.anthropic_base_url);
+                        document.getElementById('litellm-url').href = litellmClean;
+                        document.getElementById('litellm-text').textContent = litellmClean;
+                        document.getElementById('cli-url').textContent = litellmClean;
                     }
                     if (data.unsloth_studio_url) {
-                        document.getElementById('unsloth-url').href = data.unsloth_studio_url;
-                        document.getElementById('unsloth-text').textContent = data.unsloth_studio_url;
+                        const unslothClean = cleanUrl(data.unsloth_studio_url);
+                        document.getElementById('unsloth-url').href = unslothClean;
+                        document.getElementById('unsloth-text').textContent = unslothClean;
                     }
                     if (data.updated_at) {
                         document.getElementById('last-updated').textContent = 'Server last updated: ' + new Date(data.updated_at).toLocaleString();
@@ -262,7 +268,8 @@ claude</pre>
         }
 
         async function checkProxyStatus() {
-            const url = document.getElementById('litellm-url').href + '/v1/models';
+            const baseUrl = cleanUrl(document.getElementById('litellm-url').href);
+            const url = baseUrl + '/v1/models';
             setBadge('proxy-badge', 'checking', 'Checking...');
             try {
                 const controller = new AbortController();
@@ -275,12 +282,14 @@ claude</pre>
                     setBadge('proxy-badge', 'offline', `HTTP ${res.status}`);
                 }
             } catch (err) {
+                console.error('Proxy check failed:', err);
                 setBadge('proxy-badge', 'offline', 'Offline / Unreachable');
             }
         }
 
         async function checkUnslothStatus() {
-            const url = document.getElementById('unsloth-url').href + '/api/health';
+            const baseUrl = cleanUrl(document.getElementById('unsloth-url').href);
+            const url = baseUrl + '/api/health';
             setBadge('unsloth-badge', 'checking', 'Checking...');
             try {
                 const controller = new AbortController();
@@ -293,14 +302,14 @@ claude</pre>
                     setBadge('unsloth-badge', 'offline', `HTTP ${res.status}`);
                 }
             } catch (err) {
+                console.error('Unsloth check failed:', err);
                 setBadge('unsloth-badge', 'offline', 'Offline / Unreachable');
             }
         }
 
         async function loadEndpointsAndCheck() {
             await updateUrlsFromEndpointJson();
-            checkProxyStatus();
-            checkUnslothStatus();
+            await Promise.all([checkProxyStatus(), checkUnslothStatus()]);
         }
 
         // Auto-test on load
