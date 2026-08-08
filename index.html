@@ -186,6 +186,9 @@
             padding: 0.65rem 0.85rem;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .model-item strong {
             color: var(--accent);
@@ -200,6 +203,21 @@
         .size-tag {
             color: var(--accent-green);
             font-weight: 600;
+        }
+        .copy-model-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 4px;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 0.4rem;
+            align-self: flex-start;
+        }
+        .copy-model-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
         }
         footer {
             text-align: center;
@@ -231,43 +249,77 @@
                 </div>
             </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Exposed Models, Quantization Subtypes & Sizes</h3>
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code CLI Supported Model Names</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.5rem 0;">(Anthropic Messages API does not have a native <code>/v1/models</code> endpoint; LiteLLM maps these Claude model names to local Ollama models):</p>
             <div class="model-list">
                 <div class="model-item">
-                    <strong>Qwen3.6-35B-A3B-UD-Q4_K_XL</strong>
+                    <strong id="m-claude-3-5-sonnet">claude-3-5-sonnet-20241022</strong>
+                    <span>Claude 3.5 Sonnet → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-3-5-sonnet')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-claude-3-7-sonnet">claude-3-7-sonnet-20250219</strong>
+                    <span>Claude 3.7 Sonnet → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-3-7-sonnet')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-claude-3-opus">claude-3-opus-20240229</strong>
+                    <span>Claude 3 Opus → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-3-opus')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-claude-3-5-haiku">claude-3-5-haiku-20241022</strong>
+                    <span>Claude 3.5 Haiku → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-3-5-haiku')">Copy Name</button>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Native OpenAI & Ollama Models (Query via <code>GET /v1/models</code>)</h3>
+            <div class="model-list">
+                <div class="model-item">
+                    <strong id="m-qwen36-35b-ud">Qwen3.6-35B-A3B-UD-Q4_K_XL</strong>
                     <span>35B MoE • Q4_K_XL • <span class="size-tag">22 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen36-35b-ud')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>qwen3.6-35b</strong>
+                    <strong id="m-qwen36-35b">qwen3.6-35b</strong>
                     <span>35B MoE Alias • <span class="size-tag">22 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen36-35b')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>Qwen3.6-27B-UD-Q4_K_XL</strong>
+                    <strong id="m-qwen36-27b-ud">Qwen3.6-27B-UD-Q4_K_XL</strong>
                     <span>27B Dense • Q4_K_XL • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen36-27b-ud')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>Qwen3.6-27B-Q4_K_M</strong>
+                    <strong id="m-qwen36-27b-m">Qwen3.6-27B-Q4_K_M</strong>
                     <span>27B Dense • Q4_K_M • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen36-27b-m')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>Qwen3.5-35B-A3B-MXFP4_MOE</strong>
+                    <strong id="m-qwen35-35b-mxfp4">Qwen3.5-35B-A3B-MXFP4_MOE</strong>
                     <span>35B MoE • MXFP4 • <span class="size-tag">21 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen35-35b-mxfp4')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>Qwen3.5-4B-UD-Q4_K_XL</strong>
+                    <strong id="m-qwen35-4b">Qwen3.5-4B-UD-Q4_K_XL</strong>
                     <span>4B Dense • Q4_K_XL • <span class="size-tag">3.0 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen35-4b')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>Fara1.5-27B-Q4_K_M</strong>
+                    <strong id="m-fara15-27b-m">Fara1.5-27B-Q4_K_M</strong>
                     <span>27B Fara 1.5 • Q4_K_M • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-fara15-27b-m')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>fara1.5-27b / fara1.5</strong>
-                    <span>27B Fara 1.5 Aliases • <span class="size-tag">17 GB</span></span>
+                    <strong id="m-fara15-alias">fara1.5-27b</strong>
+                    <span>27B Fara 1.5 Alias • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-fara15-alias')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong>bge-small-en-v1.5-f16</strong>
+                    <strong id="m-bge-small">bge-small-en-v1.5-f16</strong>
                     <span>Embedding • F16 • <span class="size-tag">67 MB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-bge-small')">Copy Name</button>
                 </div>
             </div>
 
