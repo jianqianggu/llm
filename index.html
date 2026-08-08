@@ -13,6 +13,8 @@
             --text-muted: #94a3b8;
             --accent: #38bdf8;
             --accent-green: #4ade80;
+            --accent-red: #f87171;
+            --accent-yellow: #facc15;
             --code-bg: #090d16;
         }
         body {
@@ -40,7 +42,7 @@
         p.subtitle {
             color: var(--text-muted);
             font-size: 1.1rem;
-            margin: 0;
+            margin: 0 0 1rem 0;
         }
         .card {
             background: var(--card);
@@ -65,8 +67,6 @@
             gap: 0.5rem;
         }
         .badge {
-            background: rgba(74, 222, 128, 0.15);
-            color: var(--accent-green);
             font-size: 0.8rem;
             padding: 0.25rem 0.6rem;
             border-radius: 9999px;
@@ -80,7 +80,40 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
+        }
+        .badge-unknown {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text-muted);
+        }
+        .badge-unknown::before {
+            background: var(--text-muted);
+        }
+        .badge-online {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent-green);
+        }
+        .badge-online::before {
             background: var(--accent-green);
+        }
+        .badge-offline {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--accent-red);
+        }
+        .badge-offline::before {
+            background: var(--accent-red);
+        }
+        .badge-checking {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--accent-yellow);
+        }
+        .badge-checking::before {
+            background: var(--accent-yellow);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
         .url-box {
             background: var(--code-bg);
@@ -103,7 +136,11 @@
         .url-box a:hover {
             text-decoration: underline;
         }
-        .btn-copy {
+        .actions-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn {
             background: var(--border);
             color: var(--text);
             border: none;
@@ -111,10 +148,18 @@
             padding: 0.4rem 0.75rem;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
         }
-        .btn-copy:hover {
+        .btn:hover {
             background: #475569;
+        }
+        .btn-accent {
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+        .btn-accent:hover {
+            background: rgba(56, 189, 248, 0.3);
         }
         pre {
             background: var(--code-bg);
@@ -140,17 +185,21 @@
         <header>
             <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
             <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio</p>
+            <button class="btn btn-accent" onclick="checkAllStatus()">⚡ Test All Endpoints</button>
         </header>
 
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
-                <span class="badge">Live</span>
+                <span id="proxy-badge" class="badge badge-unknown">Unchecked</span>
             </div>
             <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Translates Claude Code / Anthropic Messages API calls to local Ollama models.</p>
             <div class="url-box">
                 <a id="litellm-url" href="https://specified-eyed-organised-reflected.trycloudflare.com" target="_blank">https://specified-eyed-organised-reflected.trycloudflare.com</a>
-                <button class="btn-copy" onclick="copyText('litellm-url')">Copy URL</button>
+                <div class="actions-row">
+                    <button class="btn" onclick="checkProxyStatus()">Check Status</button>
+                    <button class="btn" onclick="copyText('litellm-url')">Copy URL</button>
+                </div>
             </div>
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code CLI Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://specified-eyed-organised-reflected.trycloudflare.com</span>"
@@ -161,12 +210,15 @@ claude</pre>
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">⚡ Unsloth Studio Web UI</h2>
-                <span class="badge">Live</span>
+                <span id="unsloth-badge" class="badge badge-unknown">Unchecked</span>
             </div>
             <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and model management.</p>
             <div class="url-box">
                 <a id="unsloth-url" href="https://outlet-sie-navigation-anymore.trycloudflare.com" target="_blank">https://outlet-sie-navigation-anymore.trycloudflare.com</a>
-                <button class="btn-copy" onclick="copyText('unsloth-url')">Copy URL</button>
+                <div class="actions-row">
+                    <button class="btn" onclick="checkUnslothStatus()">Check Status</button>
+                    <button class="btn" onclick="copyText('unsloth-url')">Copy URL</button>
+                </div>
             </div>
         </div>
 
@@ -183,6 +235,58 @@ claude</pre>
         } else if (params.get('redirect') === 'unsloth') {
             window.location.href = document.getElementById('unsloth-url').href;
         }
+
+        function setBadge(badgeId, state, text) {
+            const badge = document.getElementById(badgeId);
+            badge.className = `badge badge-${state}`;
+            badge.textContent = text;
+        }
+
+        async function checkProxyStatus() {
+            const url = document.getElementById('litellm-url').href + '/v1/models';
+            setBadge('proxy-badge', 'checking', 'Checking...');
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 6000);
+                const res = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    setBadge('proxy-badge', 'online', 'Online (200 OK)');
+                } else {
+                    setBadge('proxy-badge', 'offline', `HTTP ${res.status}`);
+                }
+            } catch (err) {
+                setBadge('proxy-badge', 'offline', 'Offline / Unreachable');
+            }
+        }
+
+        async function checkUnslothStatus() {
+            const url = document.getElementById('unsloth-url').href + '/api/health';
+            setBadge('unsloth-badge', 'checking', 'Checking...');
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 6000);
+                const res = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    setBadge('unsloth-badge', 'online', 'Online (200 OK)');
+                } else {
+                    setBadge('unsloth-badge', 'offline', `HTTP ${res.status}`);
+                }
+            } catch (err) {
+                setBadge('unsloth-badge', 'offline', 'Offline / Unreachable');
+            }
+        }
+
+        function checkAllStatus() {
+            checkProxyStatus();
+            checkUnslothStatus();
+        }
+
+        // Auto-test on load after 500ms
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(checkAllStatus, 500);
+        });
 
         function copyText(id) {
             const element = document.getElementById(id);
