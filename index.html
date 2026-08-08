@@ -185,7 +185,7 @@
     <div class="container">
         <header>
             <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
-            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio (GPU Host)</p>
+            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio (7900 XTX GPU Server)</p>
             <button class="btn btn-accent" onclick="loadEndpointsAndCheck()">⚡ Test All Endpoints</button>
         </header>
 
@@ -194,7 +194,7 @@
                 <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
                 <span id="proxy-badge" class="badge badge-unknown">Unchecked</span>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Translates Claude Code / Anthropic Messages API calls to local Ollama models.</p>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Translates Anthropic Messages API & OpenAI Compatible `/v1` requests to local Ollama models on 7900 XTX.</p>
             <div class="url-box">
                 <a id="litellm-url" href="https://shelf-plants-shark-thunder.trycloudflare.com" target="_blank"><span id="litellm-text">https://shelf-plants-shark-thunder.trycloudflare.com</span></a>
                 <div class="actions-row">
@@ -202,10 +202,20 @@
                     <button class="btn" onclick="copyText('litellm-text')">Copy URL</button>
                 </div>
             </div>
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code CLI Setup</h3>
+
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
 export ANTHROPIC_API_KEY="sk-dummy"
 claude</pre>
+
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">OpenAI API / Client Setup</h3>
+            <pre>export OPENAI_BASE_URL="<span id="openai-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>"
+export OPENAI_API_KEY="sk-dummy"
+
+# Python OpenAI SDK Example:
+# from openai import OpenAI
+# client = OpenAI(base_url="<span id="openai-sdk-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>", api_key="sk-dummy")
+# response = client.chat.completions.create(model="qwen3.6-35b", messages=[{"role": "user", "content": "Hello"}])</pre>
         </div>
 
         <div class="card">
@@ -252,6 +262,8 @@ claude</pre>
                         document.getElementById('litellm-url').href = litellmClean;
                         document.getElementById('litellm-text').textContent = litellmClean;
                         document.getElementById('cli-url').textContent = litellmClean;
+                        document.getElementById('openai-url').textContent = litellmClean + '/v1';
+                        document.getElementById('openai-sdk-url').textContent = litellmClean + '/v1';
                     }
                     if (data.unsloth_studio_url) {
                         const unslothClean = cleanUrl(data.unsloth_studio_url);
