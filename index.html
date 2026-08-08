@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM & Unsloth Live Endpoints</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-green: #4ade80;
+            --code-bg: #090d16;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .badge {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent-green);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+        }
+        .url-box {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.95rem;
+            color: var(--accent);
+            word-break: break-all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .url-box a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .url-box a:hover {
+            text-decoration: underline;
+        }
+        .btn-copy {
+            background: var(--border);
+            color: var(--text);
+            border: none;
+            border-radius: 6px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-copy:hover {
+            background: #475569;
+        }
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin-top: 0.5rem;
+        }
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
+            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio</p>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
+                <span class="badge">Live</span>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Translates Claude Code / Anthropic Messages API calls to local Ollama models.</p>
+            <div class="url-box">
+                <a id="litellm-url" href="https://specified-eyed-organised-reflected.trycloudflare.com" target="_blank">https://specified-eyed-organised-reflected.trycloudflare.com</a>
+                <button class="btn-copy" onclick="copyText('litellm-url')">Copy URL</button>
+            </div>
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code CLI Setup</h3>
+            <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://specified-eyed-organised-reflected.trycloudflare.com</span>"
+export ANTHROPIC_API_KEY="sk-dummy"
+claude</pre>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">⚡ Unsloth Studio Web UI</h2>
+                <span class="badge">Live</span>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and model management.</p>
+            <div class="url-box">
+                <a id="unsloth-url" href="https://outlet-sie-navigation-anymore.trycloudflare.com" target="_blank">https://outlet-sie-navigation-anymore.trycloudflare.com</a>
+                <button class="btn-copy" onclick="copyText('unsloth-url')">Copy URL</button>
+            </div>
+        </div>
+
+        <footer>
+            Updated dynamically via GitHub Pages • <a href="endpoints.json" style="color: var(--accent);">endpoints.json</a>
+        </footer>
+    </div>
+
+    <script>
+        // Handle redirect parameter
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('redirect') === 'proxy') {
+            window.location.href = document.getElementById('litellm-url').href;
+        } else if (params.get('redirect') === 'unsloth') {
+            window.location.href = document.getElementById('unsloth-url').href;
+        }
+
+        function copyText(id) {
+            const element = document.getElementById(id);
+            const text = element.innerText || element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>

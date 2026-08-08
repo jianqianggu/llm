@@ -1,0 +1,11 @@
+{
+  "anthropic_base_url": "https://specified-eyed-organised-reflected.trycloudflare.com",
+  "unsloth_studio_url": "https://outlet-sie-navigation-anymore.trycloudflare.com",
+  "models": {
+    "claude-3-5-sonnet-20241022": "qwen2.5:3b",
+    "claude-3-7-sonnet-20250219": "qwen2.5:3b",
+    "claude-3-opus-20240229": "qwen2.5:3b",
+    "qwen3.6-35b": "qwen3.6:latest"
+  },
+  "updated_at": "2026-08-08T01:15:00Z"
+}
