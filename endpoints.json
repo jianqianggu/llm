@@ -3,10 +3,19 @@
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
   "unsloth_studio_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
   "models": {
+    "Qwen3.6-35B-A3B-UD-Q4_K_XL": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf:latest",
+    "qwen3.6-35b": "qwen3.6-35b:latest",
+    "Qwen3.6-27B-UD-Q4_K_XL": "Qwen3.6-27B-UD-Q4_K_XL.gguf:latest",
+    "Qwen3.6-27B-Q4_K_M": "Qwen3.6-27B-Q4_K_M.gguf:latest",
+    "Qwen3.5-35B-A3B-MXFP4_MOE": "Qwen3.5-35B-A3B-MXFP4_MOE.gguf:latest",
+    "Qwen3.5-4B-UD-Q4_K_XL": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "Fara1.5-27B-Q4_K_M": "Fara1.5-27B-Q4_K_M.gguf:latest",
+    "fara1.5-27b": "fara1.5-27b:latest",
+    "fara1.5": "fara1.5-27b:latest",
+    "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "qwen3.6-35b": "qwen3.6-35b:latest"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
-  "updated_at": "2026-08-08T01:57:54.655742+00:00"
+  "updated_at": "2026-08-08T01:58:11.447807+00:00"
 }
