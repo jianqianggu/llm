@@ -3,6 +3,8 @@
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
   "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
   "models": {
+    "Qwen3.8-27B-Q4_K_M": "Qwen3.8-27B-Q4_K_M.gguf:latest",
+    "qwen3.8-27b": "qwen3.8-27b:latest",
     "Qwen3.6-35B-A3B-UD-Q4_K_XL": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf:latest",
     "qwen3.6-35b": "qwen3.6-35b:latest",
     "Qwen3.6-27B-UD-Q4_K_XL": "Qwen3.6-27B-UD-Q4_K_XL.gguf:latest",
@@ -17,5 +19,5 @@
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
-  "updated_at": "2026-08-08T04:51:12.050782+00:00"
+  "updated_at": "2026-08-15T11:45:00+00:00"
 }
