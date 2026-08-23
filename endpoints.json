@@ -26,7 +26,11 @@
     "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "whisper-1": "openai/whisper-1",
+    "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo",
+    "whisper-large-v3": "openai/whisper-large-v3",
+    "whisper-medium": "openai/whisper-medium"
   },
   "vision_models": [
     "fara1.5",
@@ -71,7 +75,22 @@
       "mmproj": "/mnt/fast_models/unsloth/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF/mmproj-Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-BF16.gguf",
       "multimodal": true,
       "quantization": "IQ4_XS (15.7 GB)"
+    },
+    "whisper_server": {
+      "port": 8001,
+      "service": "whisper-server.service",
+      "models": [
+        "whisper-large-v3-turbo",
+        "whisper-large-v3",
+        "whisper-medium"
+      ]
     }
   },
-  "updated_at": "2026-08-23T03:50:12.721222+00:00"
+  "updated_at": "2026-08-23T03:50:55.816965+00:00",
+  "audio_models": [
+    "whisper-1",
+    "whisper-large-v3-turbo",
+    "whisper-large-v3",
+    "whisper-medium"
+  ]
 }

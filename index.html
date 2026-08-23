@@ -321,6 +321,11 @@
                     Models: <code>grok-4.6-high</code>, <code>composer2.5</code>, <code>gpt-5.6-luna-xhigh</code>, <code>gpt-5.6-sol-xhigh</code>, <code>glm-5.2-max</code>, <code>kimi-k3-high</code>
                 </div>
                 <div class="arch-row">
+                    <strong>Faster Whisper Audio Server (Port 8001)</strong>
+                    Models: <code>whisper-large-v3-turbo</code>, <code>whisper-large-v3</code>, <code>whisper-medium</code>, <code>whisper-1</code><br>
+                    Service: <code>systemctl --user status whisper-server.service</code>
+                </div>
+                <div class="arch-row">
                     <strong>Unsloth Studio</strong>
                     Port: <code>8888</code> • Service: <code>systemctl --user status unsloth-studio.service</code>
                 </div>
@@ -413,6 +418,31 @@
                 </div>
             </div>
 
+                        <!-- Speech-to-Text (Whisper) Models -->
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Speech-to-Text (Whisper Models)</h3>
+            <div class="model-list">
+                <div class="model-item">
+                    <strong id="m-whisper-v3-turbo">whisper-large-v3-turbo</strong>
+                    <span>Faster Whisper Large V3 Turbo • <span class="vision-tag">audio-transcribe</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-whisper-v3-turbo')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-whisper-v3">whisper-large-v3</strong>
+                    <span>Faster Whisper Large V3 • <span class="vision-tag">audio-transcribe</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-whisper-v3')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-whisper-medium">whisper-medium</strong>
+                    <span>Faster Whisper Medium • <span class="vision-tag">audio-transcribe</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-whisper-medium')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-whisper-1">whisper-1</strong>
+                    <span>OpenAI Whisper Alias (Large V3 Turbo)</span>
+                    <button class="copy-model-btn" onclick="copyText('m-whisper-1')">Copy Name</button>
+                </div>
+            </div>
+
             <!-- Claude Aliases -->
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code Aliases</h3>
             <div class="model-list">
@@ -435,12 +465,12 @@
 
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
-export ANTHROPIC_API_KEY="sk-dummy"
+export ANTHROPIC_API_KEY="<your-litellm-api-key>"
 claude</pre>
 
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">OpenAI API / Client Setup</h3>
             <pre>export OPENAI_BASE_URL="<span id="openai-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>"
-export OPENAI_API_KEY="sk-dummy"</pre>
+export OPENAI_API_KEY="<your-litellm-api-key>"</pre>
 
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Multimodal / Vision API Setup</h3>
             <pre># OpenAI Python SDK with Vision:
@@ -448,7 +478,7 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="<span id="openai-url-vision">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>",
-    api_key="sk-dummy"
+    api_key="<your-litellm-api-key>"
 )
 
 # Supported vision models: "fara1.5", "qwen3.8-27b-uncensored"
@@ -463,6 +493,23 @@ response = client.chat.completions.create(
     }]
 )
 print(response.choices[0].message.content)</pre>
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Audio / Whisper Transcription Setup</h3>
+            <pre># OpenAI Python SDK Audio Transcription:
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="<span id="openai-url-audio">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>",
+    api_key="<your-litellm-api-key>"
+)
+
+# Supported models: "whisper-1", "whisper-large-v3-turbo", "whisper-large-v3", "whisper-medium"
+with open("audio.mp3", "rb") as audio_file:
+    transcription = client.audio.transcriptions.create(
+        model="whisper-large-v3-turbo",
+        file=audio_file
+    )
+print("Transcript:", transcription.text)</pre>
+
         </div>
 
         <!-- Unsloth Studio Card -->
