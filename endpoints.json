@@ -7,7 +7,7 @@
     "composer2.5": "composer2.5",
     "gpt-5.6-luna-xhigh": "gpt-5.6-luna-xhigh",
     "gpt-5.6-sol-xhigh": "gpt-5.6-sol-xhigh",
-    "glm-2.5-max": "glm-2.5-max",
+    "glm-2.5-max": "glm-5.2-max",
     "kimi-k3-high": "kimi-k3-high",
     "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf": "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf:latest",
     "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS": "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf:latest",
@@ -27,7 +27,9 @@
     "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "glm-5.2-max": "glm-5.2-max",
+    "glm-5.2": "glm-5.2"
   },
   "vision_models": [
     "fara1.5",
