@@ -19,7 +19,6 @@
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
-  "updated_at": "2026-08-15T11:45:00+00:00",
   "vision_models": [
     "fara1.5",
     "fara1.5-27b",
@@ -55,5 +54,6 @@
       "modelfile": "/home/jianqianggu/.config/litellm/Modelfile.fara1.5-27b",
       "projector": "clip / qwen3vl_merger"
     }
-  }
+  },
+  "updated_at": "2026-08-23T00:39:12.082643+00:00"
 }
