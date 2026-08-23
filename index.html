@@ -3,460 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>LLM & Unsloth Live Endpoints</title>
+    <title>LLM & LiteLLM Endpoints Hub</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --border: #334155;
-            --text: #f8fafc;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --accent-green: #4ade80;
-            --accent-red: #f87171;
-            --accent-yellow: #facc15;
-            --code-bg: #090d16;
+            --accent-hover: #0ea5e9;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --border: #334155;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
             padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .container {
-            max-width: 800px;
-            width: 100%;
-        }
+
         header {
             margin-bottom: 2rem;
-            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
+
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #ffffff;
         }
-        p.subtitle {
+
+        .subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin: 0 0 1rem 0;
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
         }
+
         .card {
-            background: var(--card);
+            background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 0.75rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
         .card-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 1rem;
         }
+
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin: 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
+
         .badge {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
             border-radius: 9999px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
+            text-transform: uppercase;
         }
-        .badge::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-        .badge-unknown {
-            background: rgba(148, 163, 184, 0.15);
-            color: var(--text-muted);
-        }
-        .badge-unknown::before {
-            background: var(--text-muted);
-        }
-        .badge-online {
-            background: rgba(74, 222, 128, 0.15);
-            color: var(--accent-green);
-        }
-        .badge-online::before {
-            background: var(--accent-green);
-        }
-        .badge-offline {
-            background: rgba(248, 113, 113, 0.15);
-            color: var(--accent-red);
-        }
-        .badge-offline::before {
-            background: var(--accent-red);
-        }
-        .badge-checking {
-            background: rgba(250, 204, 21, 0.15);
-            color: var(--accent-yellow);
-        }
-        .badge-checking::before {
-            background: var(--accent-yellow);
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { opacity: 0.3; }
-        }
+
+        .badge-live { background-color: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
+        .badge-down { background-color: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+        .badge-unknown { background-color: rgba(234, 179, 8, 0.2); color: var(--warning); border: 1px solid var(--warning); }
+
         .url-box {
-            background: var(--code-bg);
+            background-color: #090d16;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.95rem;
-            color: var(--accent);
-            word-break: break-all;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
+            margin-bottom: 1rem;
+            word-break: break-all;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
         }
+
         .url-box a {
-            color: inherit;
+            color: var(--accent);
             text-decoration: none;
         }
+
         .url-box a:hover {
             text-decoration: underline;
         }
+
         .actions-row {
             display: flex;
             gap: 0.5rem;
         }
+
         .btn {
-            background: var(--border);
-            color: var(--text);
+            background-color: #334155;
+            color: var(--text-main);
             border: none;
-            border-radius: 6px;
-            padding: 0.4rem 0.75rem;
-            font-size: 0.85rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.375rem;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
         }
+
         .btn:hover {
-            background: #475569;
+            background-color: #475569;
         }
-        .btn-accent {
-            background: rgba(56, 189, 248, 0.2);
-            color: var(--accent);
-            border: 1px solid rgba(56, 189, 248, 0.4);
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0f172a;
         }
-        .btn-accent:hover {
-            background: rgba(56, 189, 248, 0.3);
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
         }
+
         pre {
-            background: var(--code-bg);
+            background-color: #090d16;
             border: 1px solid var(--border);
-            border-radius: 8px;
             padding: 1rem;
+            border-radius: 0.5rem;
             overflow-x: auto;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
             color: #e2e8f0;
-            margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
+
         .model-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 0.75rem;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
         }
+
         .model-item {
-            background: var(--code-bg);
+            background: #0f172a;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.65rem 0.85rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            padding: 0.6rem 0.75rem;
+            border-radius: 0.375rem;
             font-size: 0.85rem;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 0.25rem;
         }
+
         .model-item strong {
             color: var(--accent);
-            display: block;
-            margin-bottom: 0.25rem;
-            word-break: break-all;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
         }
+
         .model-item span {
             color: var(--text-muted);
             font-size: 0.75rem;
         }
+
         .size-tag {
-            color: var(--accent-green);
-            font-weight: 600;
-        }
-        .copy-model-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            border-radius: 4px;
-            padding: 0.2rem 0.4rem;
+            display: inline-block;
+            background: #1e293b;
+            color: #cbd5e1;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+            font-family: var(--font-mono);
             font-size: 0.7rem;
-            cursor: pointer;
-            margin-top: 0.4rem;
-            align-self: flex-start;
-        }
-        .copy-model-btn:hover {
-            color: var(--accent);
-            border-color: var(--accent);
+            margin-top: 0.15rem;
         }
 
-        .codex-tag {
-            color: #10a37f;
+        .vision-tag {
+            color: #38bdf8;
             font-weight: 600;
         }
+
         .uncensored-tag {
             color: #f43f5e;
             font-weight: 600;
         }
-        .vision-tag {
-            color: #c084fc;
+
+        .cursor-tag {
+            color: #a855f7;
             font-weight: 600;
         }
+
+        .copy-model-btn {
+            align-self: flex-start;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 0.15rem 0.4rem;
+            font-size: 0.7rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-top: 0.25rem;
+        }
+
+        .copy-model-btn:hover {
+            color: #f8fafc;
+            border-color: #475569;
+        }
+
         .arch-grid {
             display: grid;
-            gap: 0.65rem;
-            margin-top: 0.75rem;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            font-size: 0.85rem;
         }
+
         .arch-row {
-            background: var(--code-bg);
+            background: #0f172a;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.7rem 0.9rem;
-            font-size: 0.88rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
         }
+
         .arch-row strong {
-            color: var(--accent);
             display: block;
-            margin-bottom: 0.2rem;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
         }
+
         .arch-row code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            color: var(--accent-green);
+            font-family: var(--font-mono);
+            color: var(--accent);
             font-size: 0.8rem;
         }
+
         footer {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
             text-align: center;
+            font-size: 0.8rem;
             color: var(--text-muted);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--accent);
+            color: #0f172a;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
             font-size: 0.85rem;
-            margin-top: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🦥 LLM & Unsloth Cloud Tunnels</h1>
+    <header>
+        <div>
+            <h1>🚀 LLM Endpoints & Proxy Hub</h1>
             <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio (7900 XTX GPU Server)</p>
-            <button class="btn btn-accent" onclick="loadEndpointsAndCheck()">⚡ Test All Endpoints</button>
-        </header>
+        </div>
+        <button class="btn btn-primary" onclick="refreshAll()">Refresh All</button>
+    </header>
 
-
+    <main>
+        <!-- Architecture Card -->
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title">LiteLLM Setup Map</h2>
+                <h2 class="card-title">🗺️ LiteLLM Setup Map</h2>
+                <span class="badge badge-live">Configured</span>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Host <code>jianq-7900xtx</code> (Ubuntu, RX 7900 XTX). Public access is a Cloudflare Quick Tunnel in front of LiteLLM.</p>
             <div class="arch-grid">
                 <div class="arch-row">
-                    <strong>LiteLLM proxy</strong>
-                    User unit <code>litellm-proxy.service</code> → <code>0.0.0.0:8000</code><br>
-                    Binary: <code>~/.venvs/huggingface/bin/litellm</code> (v1.95.0)<br>
-                    Config: <code>~/.config/litellm/config.yaml</code><br>
-                    Anthropic <code>/v1/messages</code> and OpenAI <code>/v1/chat/completions</code> both translate to Ollama.
+                    <strong>LiteLLM Proxy (Port 8000)</strong>
+                    Translates Anthropic <code>/v1/messages</code> & OpenAI <code>/v1/chat/completions</code> to Ollama.<br>
+                    Service: <code>systemctl --user status litellm-proxy.service</code><br>
+                    Config: <code>~/.config/litellm/config.yaml</code>
                 </div>
                 <div class="arch-row">
-                    <strong>Cloudflare tunnel</strong>
-                    User unit <code>ollama-cloudflare-tunnel.service</code><br>
-                    <code>cloudflared tunnel --url http://localhost:8000</code>
+                    <strong>Local Multimodal & Dense Models (Ollama Port 11434)</strong>
+                    Fara 1.5 Multimodal: <code>fara1.5</code>, <code>fara1.5-27b</code> (vision enabled)<br>
+                    Qwen 3.8 Uncensored: <code>qwen3.8-27b-uncensored</code> (15.7 GB + BF16 vision mmproj)<br>
+                    Qwen 3.8 / 3.6 Text: <code>qwen3.8-27b</code>, <code>qwen3.6-35b</code>
                 </div>
                 <div class="arch-row">
-                    <strong>Ollama</strong>
-                    System unit <code>ollama.service</code> → <code>0.0.0.0:11434</code><br>
-                    Models dir: <code>/mnt/fast_models/ollama</code> (<code>OLLAMA_MODELS</code>)
-                </div>
-                <div class="arch-row">
-                    <strong>Fara-1.5 multimodal</strong>
-                    Aliases: <code>fara1.5</code>, <code>fara1.5-27b</code>, <code>Fara1.5-27B-Q4_K_M</code><br>
-                    Weights: Q4_K_M 17 GB + CLIP mmproj Q8_0 (460M, qwen3vl_merger)<br>
-                    Recreate: <code>ollama create fara1.5-27b -f ~/.config/litellm/Modelfile.fara1.5-27b</code>
-                </div>
-                <div class="arch-row">
-                    <strong>Qwen3.8 Uncensored (HauhauCS FastMTP)</strong>
-                    Model: <code>Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf</code> (15.7 GB)<br>
-                    Projector: <code>mmproj-Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-BF16.gguf</code> (931 MB, vision enabled)<br>
-                    Aliases: <code>qwen3.8-27b-uncensored</code>, <code>qwen3.8-uncensored</code>
+                    <strong>Cursor / Advanced Catalog</strong>
+                    Models: <code>grok-4.6-high</code>, <code>composer2.5</code>, <code>gpt-5.6-luna-xhigh</code>, <code>gpt-5.6-sol-xhigh</code>, <code>glm-2.5-max</code>, <code>kimi-k3-high</code>
                 </div>
                 <div class="arch-row">
                     <strong>Unsloth Studio</strong>
-                    User unit <code>unsloth-studio.service</code> → <code>0.0.0.0:8888</code> with its own Quick Tunnel.
-                </div>
-                <div class="arch-row">
-                    <strong>GitHub Pages sync</strong>
-                    Timer <code>llm-ghpages-sync.timer</code> every 5 minutes writes live tunnel URLs to this repo.
+                    Port: <code>8888</code> • Service: <code>systemctl --user status unsloth-studio.service</code>
                 </div>
             </div>
         </div>
+
+        <!-- LiteLLM Proxy Card -->
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
-                <span id="proxy-badge" class="badge badge-unknown">Unchecked</span>
+                <span id="litellm-badge" class="badge badge-unknown">Unchecked</span>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Translates Anthropic Messages API & OpenAI Compatible `/v1` requests to local Ollama models on 7900 XTX.</p>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Compatible with Claude Code, Cursor, OpenCode, Aider, and standard OpenAI/Anthropic SDKs.</p>
+            
             <div class="url-box">
                 <a id="litellm-url" href="https://shelf-plants-shark-thunder.trycloudflare.com" target="_blank"><span id="litellm-text">https://shelf-plants-shark-thunder.trycloudflare.com</span></a>
                 <div class="actions-row">
-                    <button class="btn" onclick="checkProxyStatus()">Check Status</button>
+                    <button class="btn" onclick="checkLiteLLMStatus()">Check Status</button>
                     <button class="btn" onclick="copyText('litellm-text')">Copy URL</button>
                 </div>
             </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code CLI Supported Model Names</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.5rem 0;">(Anthropic Messages API does not have a native <code>/v1/models</code> endpoint; LiteLLM maps these Claude model names to local Ollama models):</p>
+            <!-- Cursor / Advanced Models -->
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Cursor / Advanced Models</h3>
             <div class="model-list">
                 <div class="model-item">
-                    <strong id="m-claude-3-5-sonnet">claude-3-5-sonnet-20241022</strong>
-                    <span>Claude 3.5 Sonnet → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-3-5-sonnet')">Copy Name</button>
+                    <strong id="m-grok-46">grok-4.6-high</strong>
+                    <span>Grok 4.6 High • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-grok-46')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-claude-3-7-sonnet">claude-3-7-sonnet-20250219</strong>
-                    <span>Claude 3.7 Sonnet → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-3-7-sonnet')">Copy Name</button>
+                    <strong id="m-composer-25">composer2.5</strong>
+                    <span>Composer 2.5 • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-composer-25')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-claude-3-opus">claude-3-opus-20240229</strong>
-                    <span>Claude 3 Opus → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-3-opus')">Copy Name</button>
+                    <strong id="m-gpt-luna">gpt-5.6-luna-xhigh</strong>
+                    <span>GPT 5.6 Luna XHigh • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-gpt-luna')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-claude-3-5-haiku">claude-3-5-haiku-20241022</strong>
-                    <span>Claude 3.5 Haiku → Qwen3.5 4B Q4_K_XL (3.0 GB)</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-3-5-haiku')">Copy Name</button>
+                    <strong id="m-gpt-sol">gpt-5.6-sol-xhigh</strong>
+                    <span>GPT 5.6 Sol XHigh • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-gpt-sol')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-glm-max">glm-2.5-max</strong>
+                    <span>GLM 2.5 Max • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-glm-max')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-kimi-k3">kimi-k3-high</strong>
+                    <span>Kimi K3 High • <span class="cursor-tag">advanced</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-kimi-k3')">Copy Name</button>
                 </div>
             </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Native OpenAI & Ollama Models (Query via <code>GET /v1/models</code>)</h3>
+            <!-- Local GPU Models -->
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Local 7900 XTX Models</h3>
             <div class="model-list">
                 <div class="model-item">
-                                    <div class="model-item">
-                    <strong id="m-qwen38-uncensored-iq4">Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf</strong>
+                    <strong id="m-fara15">fara1.5</strong>
+                    <span>27B Multimodal • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-fara15')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-fara15-27b">fara1.5-27b</strong>
+                    <span>27B Multimodal • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-fara15-27b')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-qwen38-uncensored">qwen3.8-27b-uncensored</strong>
                     <span>27B Uncensored • <span class="uncensored-tag">uncensored</span> • <span class="vision-tag">vision</span> • <span class="size-tag">16 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored-iq4')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen38-uncensored-alias">qwen3.8-27b-uncensored</strong>
-                    <span>27B Uncensored Alias • <span class="uncensored-tag">uncensored</span> • <span class="vision-tag">vision</span> • <span class="size-tag">16 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored-alias')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen38-27b-m">Qwen3.8-27B-Q4_K_M</strong>
-                    <span>27B Dense MTP • Q4_K_M • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen38-27b-m')">Copy Name</button>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored')">Copy Name</button>
                 </div>
                 <div class="model-item">
                     <strong id="m-qwen38-27b">qwen3.8-27b</strong>
-                    <span>27B Dense MTP Alias • <span class="size-tag">17 GB</span></span>
+                    <span>27B Dense • <span class="size-tag">17 GB</span></span>
                     <button class="copy-model-btn" onclick="copyText('m-qwen38-27b')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-qwen36-35b-ud">Qwen3.6-35B-A3B-UD-Q4_K_XL</strong>
-                    <span>35B MoE • Q4_K_XL • <span class="size-tag">22 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen36-35b-ud')">Copy Name</button>
-                </div>
-                <div class="model-item">
                     <strong id="m-qwen36-35b">qwen3.6-35b</strong>
-                    <span>35B MoE Alias • <span class="size-tag">22 GB</span></span>
+                    <span>35B MoE • <span class="size-tag">22 GB</span></span>
                     <button class="copy-model-btn" onclick="copyText('m-qwen36-35b')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-qwen36-27b-ud">Qwen3.6-27B-UD-Q4_K_XL</strong>
-                    <span>27B Dense • Q4_K_XL • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen36-27b-ud')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen36-27b-m">Qwen3.6-27B-Q4_K_M</strong>
-                    <span>27B Dense • Q4_K_M • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen36-27b-m')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen35-35b-mxfp4">Qwen3.5-35B-A3B-MXFP4_MOE</strong>
-                    <span>35B MoE • MXFP4 • <span class="size-tag">21 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen35-35b-mxfp4')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen35-4b">Qwen3.5-4B-UD-Q4_K_XL</strong>
-                    <span>4B Dense • Q4_K_XL • <span class="size-tag">3.0 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen35-4b')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-fara15-27b-m">Fara1.5-27B-Q4_K_M</strong>
-                    <span>27B Fara 1.5 • Q4_K_M • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-fara15-27b-m')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-fara15-alias">fara1.5-27b</strong>
-                    <span>27B Fara 1.5 alias • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-fara15-alias')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-fara15-short">fara1.5</strong>
-                    <span>27B Fara 1.5 alias • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-fara15-short')">Copy Name</button>
-                </div>
-                <div class="model-item">
                     <strong id="m-bge-small">bge-small-en-v1.5-f16</strong>
-                    <span>Embedding • F16 • <span class="size-tag">67 MB</span></span>
+                    <span>Embedding • <span class="size-tag">67 MB</span></span>
                     <button class="copy-model-btn" onclick="copyText('m-bge-small')">Copy Name</button>
                 </div>
             </div>
 
-                        
+            <!-- Claude Aliases -->
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code Aliases</h3>
+            <div class="model-list">
                 <div class="model-item">
-                    <strong id="m-codex-gpt55">gpt-5.5</strong>
-                    <span>Codex GPT-5.5 • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-codex-gpt55')">Copy Name</button>
+                    <strong id="m-claude-37-sonnet">claude-3-7-sonnet-20250219</strong>
+                    <span>Alias • Mapped to local GPU model</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-37-sonnet')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-codex-sol">gpt-5.6-sol</strong>
-                    <span>Codex GPT-5.6 Sol • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-codex-sol')">Copy Name</button>
+                    <strong id="m-claude-35-sonnet">claude-3-5-sonnet-20241022</strong>
+                    <span>Alias • Mapped to local GPU model</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-35-sonnet')">Copy Name</button>
                 </div>
                 <div class="model-item">
-                    <strong id="m-codex-terra">gpt-5.6-terra</strong>
-                    <span>Codex GPT-5.6 Terra • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-codex-terra')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-codex-luna">gpt-5.6-luna</strong>
-                    <span>Codex GPT-5.6 Luna • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-codex-luna')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-codex-alias">codex</strong>
-                    <span>Codex Alias (gpt-5.4) • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-codex-alias')">Copy Name</button>
+                    <strong id="m-claude-3-opus">claude-3-opus-20240229</strong>
+                    <span>Alias • Mapped to local GPU model</span>
+                    <button class="copy-model-btn" onclick="copyText('m-claude-3-opus')">Copy Name</button>
                 </div>
             </div>
+
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
 export ANTHROPIC_API_KEY="sk-dummy"
@@ -464,20 +440,38 @@ claude</pre>
 
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">OpenAI API / Client Setup</h3>
             <pre>export OPENAI_BASE_URL="<span id="openai-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>"
-export OPENAI_API_KEY="sk-dummy"
+export OPENAI_API_KEY="sk-dummy"</pre>
 
-# Python OpenAI SDK Example:
-# from openai import OpenAI
-# client = OpenAI(base_url="<span id="openai-sdk-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>", api_key="sk-dummy")
-# response = client.chat.completions.create(model="Qwen3.6-35B-A3B-UD-Q4_K_XL", messages=[{"role": "user", "content": "Hello"}])</pre>
+            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Multimodal / Vision API Setup</h3>
+            <pre># OpenAI Python SDK with Vision:
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="<span id="openai-url-vision">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>",
+    api_key="sk-dummy"
+)
+
+# Supported vision models: "fara1.5", "qwen3.8-27b-uncensored"
+response = client.chat.completions.create(
+    model="fara1.5",
+    messages=[{
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Describe the contents of this screenshot."},
+            {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}}
+        ]
+    }]
+)
+print(response.choices[0].message.content)</pre>
         </div>
 
+        <!-- Unsloth Studio Card -->
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">⚡ Unsloth Studio Web UI</h2>
                 <span id="unsloth-badge" class="badge badge-unknown">Unchecked</span>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and model management.</p>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and GGUF exports.</p>
             <div class="url-box">
                 <a id="unsloth-url" href="https://achieving-fell-enter-exceed.trycloudflare.com" target="_blank"><span id="unsloth-text">https://achieving-fell-enter-exceed.trycloudflare.com</span></a>
                 <div class="actions-row">
@@ -491,105 +485,116 @@ export OPENAI_API_KEY="sk-dummy"
             Updated dynamically via GitHub Pages • <a href="endpoints.json" style="color: var(--accent);">endpoints.json</a>
             <div id="last-updated" style="margin-top: 0.4rem; color: var(--text-muted); font-size: 0.75rem;"></div>
         </footer>
-    </div>
+    </main>
+
+    <div id="toast" class="toast">Copied to clipboard!</div>
 
     <script>
-        function cleanUrl(url) {
-            return url.trim().replace(/\/+$/, '');
-        }
+        let endpointsData = null;
 
-        function setBadge(badgeId, state, text) {
-            const badge = document.getElementById(badgeId);
-            if (badge) {
-                badge.className = `badge badge-${state}`;
-                badge.textContent = text;
-            }
-        }
-
-        async function updateUrlsFromEndpointJson() {
+        async function loadEndpoints() {
             try {
                 const res = await fetch('endpoints.json?t=' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.anthropic_base_url) {
-                        const litellmClean = cleanUrl(data.anthropic_base_url);
-                        document.getElementById('litellm-url').href = litellmClean;
-                        document.getElementById('litellm-text').textContent = litellmClean;
-                        document.getElementById('cli-url').textContent = litellmClean;
-                        document.getElementById('openai-url').textContent = litellmClean + '/v1';
-                        document.getElementById('openai-sdk-url').textContent = litellmClean + '/v1';
-                    }
-                    if (data.unsloth_studio_url) {
-                        const unslothClean = cleanUrl(data.unsloth_studio_url);
-                        document.getElementById('unsloth-url').href = unslothClean;
-                        document.getElementById('unsloth-text').textContent = unslothClean;
-                    }
-                    if (data.updated_at) {
-                        document.getElementById('last-updated').textContent = 'Server last updated: ' + new Date(data.updated_at).toLocaleString();
-                    }
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                endpointsData = await res.json();
+                
+                if (endpointsData.litellm_proxy && endpointsData.litellm_proxy.url) {
+                    const lUrl = endpointsData.litellm_proxy.url;
+                    document.getElementById('litellm-url').href = lUrl;
+                    document.getElementById('litellm-text').textContent = lUrl;
+                    document.getElementById('cli-url').textContent = lUrl;
+                    document.getElementById('openai-url').textContent = lUrl + '/v1';
+                    const visEl = document.getElementById('openai-url-vision');
+                    if (visEl) visEl.textContent = lUrl + '/v1';
                 }
+
+                if (endpointsData.unsloth_studio && endpointsData.unsloth_studio.url) {
+                    const uUrl = endpointsData.unsloth_studio.url;
+                    document.getElementById('unsloth-url').href = uUrl;
+                    document.getElementById('unsloth-text').textContent = uUrl;
+                }
+
+                if (endpointsData.updated_at) {
+                    const d = new Date(endpointsData.updated_at);
+                    document.getElementById('last-updated').textContent = "Last synchronized: " + d.toLocaleString();
+                }
+
+                checkAll();
             } catch (err) {
-                console.error('Failed to load endpoints.json:', err);
+                console.error("Failed to load endpoints.json", err);
             }
         }
 
-        async function checkProxyStatus() {
-            const baseUrl = cleanUrl(document.getElementById('litellm-url').href);
-            const url = baseUrl + '/v1/models';
-            setBadge('proxy-badge', 'checking', 'Checking...');
+        async function checkUrl(url) {
             try {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 6000);
-                const res = await fetch(url, { signal: controller.signal });
+                const res = await fetch(url + '/healthz', { mode: 'no-cors', signal: controller.signal });
                 clearTimeout(timeoutId);
-                if (res.ok) {
-                    setBadge('proxy-badge', 'online', 'Online (200 OK)');
-                } else {
-                    setBadge('proxy-badge', 'offline', `HTTP ${res.status}`);
+                return true;
+            } catch (e) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 6000);
+                    await fetch(url, { mode: 'no-cors', signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    return true;
+                } catch (err) {
+                    return false;
                 }
-            } catch (err) {
-                console.error('Proxy check failed:', err);
-                setBadge('proxy-badge', 'offline', 'Offline / Unreachable');
             }
+        }
+
+        async function checkLiteLLMStatus() {
+            const badge = document.getElementById('litellm-badge');
+            badge.className = 'badge badge-unknown';
+            badge.textContent = 'Checking...';
+            const url = document.getElementById('litellm-text').textContent;
+            const ok = await checkUrl(url);
+            badge.className = ok ? 'badge badge-live' : 'badge badge-down';
+            badge.textContent = ok ? 'Live' : 'Offline';
         }
 
         async function checkUnslothStatus() {
-            const baseUrl = cleanUrl(document.getElementById('unsloth-url').href);
-            const url = baseUrl + '/api/health';
-            setBadge('unsloth-badge', 'checking', 'Checking...');
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 6000);
-                const res = await fetch(url, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                if (res.ok) {
-                    setBadge('unsloth-badge', 'online', 'Online (200 OK)');
-                } else {
-                    setBadge('unsloth-badge', 'offline', `HTTP ${res.status}`);
-                }
-            } catch (err) {
-                console.error('Unsloth check failed:', err);
-                setBadge('unsloth-badge', 'offline', 'Offline / Unreachable');
-            }
+            const badge = document.getElementById('unsloth-badge');
+            badge.className = 'badge badge-unknown';
+            badge.textContent = 'Checking...';
+            const url = document.getElementById('unsloth-text').textContent;
+            const ok = await checkUrl(url);
+            badge.className = ok ? 'badge badge-live' : 'badge badge-down';
+            badge.textContent = ok ? 'Live' : 'Offline';
         }
 
-        async function loadEndpointsAndCheck() {
-            await updateUrlsFromEndpointJson();
-            await Promise.all([checkProxyStatus(), checkUnslothStatus()]);
+        function checkAll() {
+            checkLiteLLMStatus();
+            checkUnslothStatus();
         }
 
-        // Auto-test on load
-        window.addEventListener('DOMContentLoaded', () => {
-            loadEndpointsAndCheck();
-        });
+        function refreshAll() {
+            loadEndpoints();
+        }
 
         function copyText(id) {
-            const element = document.getElementById(id);
-            const text = element.innerText || element.textContent;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const text = el.textContent || el.innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard: ' + text);
+                showToast("Copied: " + text);
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
             });
         }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEndpoints);
     </script>
 </body>
 </html>
