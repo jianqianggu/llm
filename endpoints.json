@@ -26,9 +26,7 @@
     "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "glm-5.2-max": "glm-5.2-max",
-    "glm-5.2": "glm-5.2"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
   "vision_models": [
     "fara1.5",
@@ -75,5 +73,5 @@
       "quantization": "IQ4_XS (15.7 GB)"
     }
   },
-  "updated_at": "2026-08-23T03:45:12.328069+00:00"
+  "updated_at": "2026-08-23T03:50:12.721222+00:00"
 }
