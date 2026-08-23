@@ -19,5 +19,41 @@
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
-  "updated_at": "2026-08-15T11:45:00+00:00"
+  "updated_at": "2026-08-15T11:45:00+00:00",
+  "vision_models": [
+    "fara1.5",
+    "fara1.5-27b",
+    "Fara1.5-27B-Q4_K_M"
+  ],
+  "architecture": {
+    "host": "jianq-7900xtx",
+    "litellm": {
+      "service": "litellm-proxy.service",
+      "port": 8000,
+      "config": "/home/jianqianggu/.config/litellm/config.yaml",
+      "version": "1.95.0",
+      "anthropic": "/v1/messages",
+      "openai": "/v1/chat/completions"
+    },
+    "ollama": {
+      "service": "ollama.service",
+      "port": 11434,
+      "models_dir": "/mnt/fast_models/ollama"
+    },
+    "tunnel": {
+      "service": "ollama-cloudflare-tunnel.service",
+      "backend": "http://localhost:8000"
+    },
+    "unsloth": {
+      "service": "unsloth-studio.service",
+      "port": 8888
+    },
+    "fara1.5": {
+      "multimodal": true,
+      "weights": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27B-Q4_K_M.gguf",
+      "mmproj": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27B.mmproj-q8_0.gguf",
+      "modelfile": "/home/jianqianggu/.config/litellm/Modelfile.fara1.5-27b",
+      "projector": "clip / qwen3vl_merger"
+    }
+  }
 }

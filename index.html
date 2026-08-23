@@ -219,6 +219,33 @@
             color: var(--accent);
             border-color: var(--accent);
         }
+
+        .vision-tag {
+            color: #c084fc;
+            font-weight: 600;
+        }
+        .arch-grid {
+            display: grid;
+            gap: 0.65rem;
+            margin-top: 0.75rem;
+        }
+        .arch-row {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.88rem;
+        }
+        .arch-row strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .arch-row code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            color: var(--accent-green);
+            font-size: 0.8rem;
+        }
         footer {
             text-align: center;
             color: var(--text-muted);
@@ -235,6 +262,46 @@
             <button class="btn btn-accent" onclick="loadEndpointsAndCheck()">⚡ Test All Endpoints</button>
         </header>
 
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">LiteLLM Setup Map</h2>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Host <code>jianq-7900xtx</code> (Ubuntu, RX 7900 XTX). Public access is a Cloudflare Quick Tunnel in front of LiteLLM.</p>
+            <div class="arch-grid">
+                <div class="arch-row">
+                    <strong>LiteLLM proxy</strong>
+                    User unit <code>litellm-proxy.service</code> → <code>0.0.0.0:8000</code><br>
+                    Binary: <code>~/.venvs/huggingface/bin/litellm</code> (v1.95.0)<br>
+                    Config: <code>~/.config/litellm/config.yaml</code><br>
+                    Anthropic <code>/v1/messages</code> and OpenAI <code>/v1/chat/completions</code> both translate to Ollama.
+                </div>
+                <div class="arch-row">
+                    <strong>Cloudflare tunnel</strong>
+                    User unit <code>ollama-cloudflare-tunnel.service</code><br>
+                    <code>cloudflared tunnel --url http://localhost:8000</code>
+                </div>
+                <div class="arch-row">
+                    <strong>Ollama</strong>
+                    System unit <code>ollama.service</code> → <code>0.0.0.0:11434</code><br>
+                    Models dir: <code>/mnt/fast_models/ollama</code> (<code>OLLAMA_MODELS</code>)
+                </div>
+                <div class="arch-row">
+                    <strong>Fara-1.5 multimodal</strong>
+                    Aliases: <code>fara1.5</code>, <code>fara1.5-27b</code>, <code>Fara1.5-27B-Q4_K_M</code><br>
+                    Weights: Q4_K_M 17 GB + CLIP mmproj Q8_0 (460M, qwen3vl_merger)<br>
+                    Recreate: <code>ollama create fara1.5-27b -f ~/.config/litellm/Modelfile.fara1.5-27b</code>
+                </div>
+                <div class="arch-row">
+                    <strong>Unsloth Studio</strong>
+                    User unit <code>unsloth-studio.service</code> → <code>0.0.0.0:8888</code> with its own Quick Tunnel.
+                </div>
+                <div class="arch-row">
+                    <strong>GitHub Pages sync</strong>
+                    Timer <code>llm-ghpages-sync.timer</code> every 5 minutes writes live tunnel URLs to this repo.
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
@@ -318,13 +385,18 @@
                 </div>
                 <div class="model-item">
                     <strong id="m-fara15-27b-m">Fara1.5-27B-Q4_K_M</strong>
-                    <span>27B Fara 1.5 • Q4_K_M • <span class="size-tag">17 GB</span></span>
+                    <span>27B Fara 1.5 • Q4_K_M • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
                     <button class="copy-model-btn" onclick="copyText('m-fara15-27b-m')">Copy Name</button>
                 </div>
                 <div class="model-item">
                     <strong id="m-fara15-alias">fara1.5-27b</strong>
-                    <span>27B Fara 1.5 Alias • <span class="size-tag">17 GB</span></span>
+                    <span>27B Fara 1.5 alias • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
                     <button class="copy-model-btn" onclick="copyText('m-fara15-alias')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-fara15-short">fara1.5</strong>
+                    <span>27B Fara 1.5 alias • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-fara15-short')">Copy Name</button>
                 </div>
                 <div class="model-item">
                     <strong id="m-bge-small">bge-small-en-v1.5-f16</strong>
