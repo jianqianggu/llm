@@ -220,6 +220,10 @@
             border-color: var(--accent);
         }
 
+        .uncensored-tag {
+            color: #f43f5e;
+            font-weight: 600;
+        }
         .vision-tag {
             color: #c084fc;
             font-weight: 600;
@@ -293,6 +297,12 @@
                     Recreate: <code>ollama create fara1.5-27b -f ~/.config/litellm/Modelfile.fara1.5-27b</code>
                 </div>
                 <div class="arch-row">
+                    <strong>Qwen3.8 Uncensored (HauhauCS FastMTP)</strong>
+                    Model: <code>Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf</code> (15.7 GB)<br>
+                    Projector: <code>mmproj-Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-BF16.gguf</code> (931 MB, vision enabled)<br>
+                    Aliases: <code>qwen3.8-27b-uncensored</code>, <code>qwen3.8-uncensored</code>
+                </div>
+                <div class="arch-row">
                     <strong>Unsloth Studio</strong>
                     User unit <code>unsloth-studio.service</code> → <code>0.0.0.0:8888</code> with its own Quick Tunnel.
                 </div>
@@ -343,6 +353,17 @@
 
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Native OpenAI & Ollama Models (Query via <code>GET /v1/models</code>)</h3>
             <div class="model-list">
+                <div class="model-item">
+                                    <div class="model-item">
+                    <strong id="m-qwen38-uncensored-iq4">Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf</strong>
+                    <span>27B Uncensored • <span class="uncensored-tag">uncensored</span> • <span class="vision-tag">vision</span> • <span class="size-tag">16 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored-iq4')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-qwen38-uncensored-alias">qwen3.8-27b-uncensored</strong>
+                    <span>27B Uncensored Alias • <span class="uncensored-tag">uncensored</span> • <span class="vision-tag">vision</span> • <span class="size-tag">16 GB</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored-alias')">Copy Name</button>
+                </div>
                 <div class="model-item">
                     <strong id="m-qwen38-27b-m">Qwen3.8-27B-Q4_K_M</strong>
                     <span>27B Dense MTP • Q4_K_M • <span class="size-tag">17 GB</span></span>
