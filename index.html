@@ -220,6 +220,10 @@
             border-color: var(--accent);
         }
 
+        .codex-tag {
+            color: #10a37f;
+            font-weight: 600;
+        }
         .uncensored-tag {
             color: #f43f5e;
             font-weight: 600;
@@ -426,6 +430,39 @@
                 </div>
             </div>
 
+                        <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">OpenAI Codex / ChatGPT Subscription (OAuth)</h3>
+            <div class="model-list">
+                <div class="model-item">
+                    <strong id="m-codex-gpt54">gpt-5.4</strong>
+                    <span>Codex GPT-5.4 • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-gpt54')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-codex-gpt55">gpt-5.5</strong>
+                    <span>Codex GPT-5.5 • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-gpt55')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-codex-sol">gpt-5.6-sol</strong>
+                    <span>Codex GPT-5.6 Sol • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-sol')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-codex-terra">gpt-5.6-terra</strong>
+                    <span>Codex GPT-5.6 Terra • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-terra')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-codex-luna">gpt-5.6-luna</strong>
+                    <span>Codex GPT-5.6 Luna • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-luna')">Copy Name</button>
+                </div>
+                <div class="model-item">
+                    <strong id="m-codex-alias">codex</strong>
+                    <span>Codex Alias (gpt-5.4) • <span class="codex-tag">codex sub</span> • <span class="size-tag">cloud</span></span>
+                    <button class="copy-model-btn" onclick="copyText('m-codex-alias')">Copy Name</button>
+                </div>
+            </div>
             <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
             <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
 export ANTHROPIC_API_KEY="sk-dummy"

@@ -21,7 +21,14 @@
     "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "gpt-5.4": "chatgpt/gpt-5.4",
+    "chatgpt/gpt-5.4": "chatgpt/gpt-5.4",
+    "gpt-5.5": "chatgpt/gpt-5.5",
+    "gpt-5.6-sol": "chatgpt/gpt-5.6-sol",
+    "gpt-5.6-terra": "chatgpt/gpt-5.6-terra",
+    "gpt-5.6-luna": "chatgpt/gpt-5.6-luna",
+    "codex": "chatgpt/gpt-5.4"
   },
   "vision_models": [
     "fara1.5",
@@ -70,5 +77,18 @@
       "quantization": "IQ4_XS (15.7 GB)"
     }
   },
-  "updated_at": "2026-08-23T03:33:12.058848+00:00"
+  "updated_at": "2026-08-23T03:37:01.027970+00:00",
+  "codex_subscription": {
+    "enabled": true,
+    "auth_type": "oauth_jwt",
+    "backend": "chatgpt.com/backend-api/codex",
+    "supported_models": [
+      "gpt-5.4",
+      "gpt-5.5",
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna",
+      "codex"
+    ]
+  }
 }
