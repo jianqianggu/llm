@@ -101,7 +101,7 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
         <h2>Architecture</h2>
         <div class="arch"><strong>LiteLLM Proxy (port 8000)</strong>Auth via <code>master_key</code> • Anthropic + OpenAI API compatible</div>
         <div class="arch"><strong>Ollama (port 11434)</strong>Local GPU models: Fara 1.5, Qwen 3.8/3.6</div>
-        <div class="arch"><strong>cursor2api (port 3010)</strong>Cursor Pro+ session → OpenAI-compatible API</div>
+        <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge</div>
         <div class="arch"><strong>Whisper Server (port 8001)</strong>Faster-Whisper large-v3-turbo + medium</div>
     </div>
 
