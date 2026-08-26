@@ -29,6 +29,7 @@
         .tag-cursor{color:#a855f7;font-weight:600}
         .tag-local{color:#22c55e;font-weight:600}
         .tag-audio{color:#f59e0b;font-weight:600}
+        .tag-antigravity{color:#ef4444;font-weight:600}
         .copy-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:0.1rem 0.4rem;font-size:0.68rem;border-radius:0.25rem;cursor:pointer;margin-top:0.25rem}
         .copy-btn:hover{color:#f8fafc}
         .arch{background:#0f172a;border:1px solid var(--border);padding:0.6rem 0.9rem;border-radius:0.4rem;margin-bottom:0.5rem;font-size:0.82rem}
@@ -63,8 +64,8 @@
 
         <h3>Antigravity / Gemini & Opus</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-gemini">gemini-4.7-flash</strong><span>Gemini 4.7 Flash <span class="tag tag-cursor">antigravity</span></span><button class="copy-btn" onclick="copyText('m-gemini')">Copy</button></div>
-            <div class="model-item"><strong id="m-opus">claude-opus-4.6</strong><span>Claude Opus 4.6 <span class="tag tag-cursor">antigravity</span></span><button class="copy-btn" onclick="copyText('m-opus')">Copy</button></div>
+            <div class="model-item"><strong id="m-gemini">gemini-4.7-flash</strong><span>Gemini Flash (Antigravity) <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-gemini')">Copy</button></div>
+            <div class="model-item"><strong id="m-opus">claude-opus-4.6</strong><span>Claude Opus 4.6 (Antigravity) <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-opus')">Copy</button></div>
         </div>
 
         <h3>Local 7900 XTX Models</h3>
@@ -101,7 +102,8 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
         <h2>Architecture</h2>
         <div class="arch"><strong>LiteLLM Proxy (port 8000)</strong>Auth via <code>master_key</code> • Anthropic + OpenAI API compatible</div>
         <div class="arch"><strong>Ollama (port 11434)</strong>Local GPU models: Fara 1.5, Qwen 3.8/3.6</div>
-        <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge</div>
+        <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge (Grok, Composer, GPT 5.6, GLM, Kimi)</div>
+        <div class="arch"><strong>antigravity-proxy (port 8766)</strong>Google Antigravity (cloudcode-pa) → OpenAI-compatible bridge (Gemini Flash, Claude Opus 4.6)</div>
         <div class="arch"><strong>Whisper Server (port 8001)</strong>Faster-Whisper large-v3-turbo + medium</div>
     </div>
 

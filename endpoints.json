@@ -3,43 +3,36 @@
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
   "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
   "models": {
-    "gemini-4.7-flash": "openai/gemini-4.7-flash",
-    "claude-opus-4.6": "openai/claude-opus-4-6",
-    "gemini-flash": "openai/gemini-3-flash",
-    "antigravity-gemini-flash": "openai/gemini-3.7-flash",
-    "ant-4.6-opus": "openai/claude-opus-4-6",
+    "grok-4.6-high": "openai/cursor-grok-4.6-high",
+    "composer2.5": "openai/composer-2.5",
+    "gpt-5.6-luna-xhigh": "openai/gpt-5.6-luna-xhigh",
+    "gpt-5.6-sol-xhigh": "openai/gpt-5.6-sol-xhigh",
+    "glm-5.2-max": "openai/glm-5.2-max",
+    "kimi-k3-high": "openai/kimi-k3-high",
+    "gemini-4.7-flash": "openai/antigravity-gemini-3-flash",
+    "claude-opus-4.6": "openai/antigravity-claude-opus-4-6-thinking-high",
+    "fara1.5": "ollama_chat/fara1.5-27b:latest",
+    "qwen3.8-uncensored": "ollama_chat/qwen3.8-27b-uncensored:latest",
+    "qwen3.8-27b": "ollama_chat/qwen3.8-27b:latest",
+    "qwen3.6-35b": "ollama_chat/qwen3.6-35b:latest",
+    "bge-small-en-v1.5-f16": "ollama/bge-small-en-v1.5-f16.gguf:latest",
+    "claude-3-7-sonnet-20250219": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "claude-3-5-sonnet-20241022": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "claude-3-opus-20240229": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "whisper-1": "openai/whisper-1",
-    "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo",
-    "whisper-large-v3": "openai/whisper-large-v3",
-    "whisper-medium": "openai/whisper-medium",
-    "grok-4.6-high": "grok-4.6-high",
-    "composer2.5": "composer2.5",
-    "gpt-5.6-luna-xhigh": "gpt-5.6-luna-xhigh",
-    "gpt-5.6-sol-xhigh": "gpt-5.6-sol-xhigh",
-    "kimi-k3-high": "kimi-k3-high",
-    "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf": "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf:latest",
-    "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS": "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf:latest",
-    "qwen3.8-27b-uncensored": "qwen3.8-27b-uncensored:latest",
-    "qwen3.8-uncensored": "qwen3.8-27b-uncensored:latest",
-    "Qwen3.8-27B-Q4_K_M": "Qwen3.8-27B-Q4_K_M.gguf:latest",
-    "qwen3.8-27b": "qwen3.8-27b:latest",
-    "Qwen3.6-35B-A3B-UD-Q4_K_XL": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf:latest",
-    "qwen3.6-35b": "qwen3.6-35b:latest",
-    "Qwen3.6-27B-UD-Q4_K_XL": "Qwen3.6-27B-UD-Q4_K_XL.gguf:latest",
-    "Qwen3.6-27B-Q4_K_M": "Qwen3.6-27B-Q4_K_M.gguf:latest",
-    "Qwen3.5-35B-A3B-MXFP4_MOE": "Qwen3.5-35B-A3B-MXFP4_MOE.gguf:latest",
-    "Qwen3.5-4B-UD-Q4_K_XL": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "Fara1.5-27B-Q4_K_M": "Fara1.5-27B-Q4_K_M.gguf:latest",
-    "fara1.5-27b": "fara1.5-27b:latest",
-    "fara1.5": "fara1.5-27b:latest",
-    "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
-    "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
+    "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo"
   },
   "vision_models": [
     "fara1.5",
     "qwen3.8-uncensored"
+  ],
+  "audio_models": [
+    "whisper-1",
+    "whisper-large-v3-turbo"
+  ],
+  "antigravity_models": [
+    "gemini-4.7-flash",
+    "claude-opus-4.6"
   ],
   "architecture": {
     "host": "jianq-7900xtx",
@@ -67,7 +60,7 @@
     "fara1.5": {
       "multimodal": true,
       "weights": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27B-Q4_K_M.gguf",
-      "mmproj": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27B.mmproj-q8_0.gguf",
+      "mmproj": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27.mmproj-q8_0.gguf",
       "modelfile": "/home/jianqianggu/.config/litellm/Modelfile.fara1.5-27b",
       "projector": "clip / qwen3vl_merger"
     },
@@ -98,11 +91,19 @@
         "gpt-5.6-luna-xhigh",
         "gpt-5.6-sol-xhigh",
         "glm-5.2-max",
-        "kimi-k3-high",
-        "gemini-3.7-flash-high",
-        "claude-opus-4-7-high"
+        "kimi-k3-high"
+      ]
+    },
+    "antigravity_proxy": {
+      "service": "antigravity-proxy.service",
+      "port": 8766,
+      "backend": "Google Antigravity (cloudcode-pa.googleapis.com)",
+      "auth": "Google OAuth (consumer, keychain token)",
+      "models_routed": [
+        "antigravity-gemini-3-flash",
+        "antigravity-claude-opus-4-6-thinking-high"
       ]
     }
   },
-  "updated_at": "2026-08-26T15:17:12.354387+00:00"
+  "updated_at": "2026-08-26T15:21:00.000000+00:00"
 }
