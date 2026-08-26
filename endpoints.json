@@ -3,8 +3,11 @@
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
   "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
   "models": {
-    "gemini-4.7-flash": "openai/gemini-3.7-flash-high",
-    "claude-opus-4.6": "openai/claude-opus-4-7-high",
+    "gemini-4.7-flash": "openai/gemini-4.7-flash",
+    "claude-opus-4.6": "openai/claude-opus-4-6",
+    "gemini-flash": "openai/gemini-3-flash",
+    "antigravity-gemini-flash": "openai/gemini-3.7-flash",
+    "ant-4.6-opus": "openai/claude-opus-4-6",
     "whisper-1": "openai/whisper-1",
     "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo",
     "whisper-large-v3": "openai/whisper-large-v3",
@@ -32,8 +35,7 @@
     "bge-small-en-v1.5-f16": "bge-small-en-v1.5-f16.gguf:latest",
     "claude-3-5-sonnet-20241022": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "claude-3-7-sonnet-20250219": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "glm-5.2-max": "glm-5.2-max"
+    "claude-3-opus-20240229": "Qwen3.5-4B-UD-Q4_K_XL.gguf:latest"
   },
   "vision_models": [
     "fara1.5",
@@ -102,5 +104,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-26T15:13:24.748136+00:00"
+  "updated_at": "2026-08-26T15:17:12.354387+00:00"
 }
