@@ -20,7 +20,10 @@
     "claude-3-opus-20240229": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
     "whisper-1": "openai/whisper-1",
     "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo",
-    "gemini-3.7-flash": "openai/antigravity-gemini-3-flash"
+    "gemini-3.7-flash": "openai/antigravity-gemini-3-flash",
+    "antigravity-gemini-3.7-flash": "openai/antigravity-gemini-3-flash",
+    "antigravity-claude-opus-4.6": "openai/antigravity-claude-opus-4-6-thinking-high",
+    "gemini-4.7-flash": "openai/antigravity-gemini-3-flash"
   },
   "vision_models": [
     "fara1.5",
@@ -31,8 +34,8 @@
     "whisper-large-v3-turbo"
   ],
   "antigravity_models": [
-    "gemini-3.7-flash",
-    "claude-opus-4.6"
+    "antigravity-gemini-3.7-flash",
+    "antigravity-claude-opus-4.6"
   ],
   "architecture": {
     "host": "jianq-7900xtx",
