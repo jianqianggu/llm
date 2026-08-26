@@ -3,659 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM & LiteLLM Endpoints Hub</title>
+    <title>LLM Endpoints Hub</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --success: #22c55e;
-            --warning: #eab308;
-            --danger: #ef4444;
-            --border: #334155;
-            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding: 2rem 1rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        header {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        h1 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .badge {
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-        }
-
-        .badge-live { background-color: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
-        .badge-down { background-color: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
-        .badge-unknown { background-color: rgba(234, 179, 8, 0.2); color: var(--warning); border: 1px solid var(--warning); }
-
-        .url-box {
-            background-color: #090d16;
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            word-break: break-all;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-        }
-
-        .url-box a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .url-box a:hover {
-            text-decoration: underline;
-        }
-
-        .actions-row {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            background-color: #334155;
-            color: var(--text-main);
-            border: none;
-            padding: 0.35rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #475569;
-        }
-
-        .btn-primary {
-            background-color: var(--accent);
-            color: #0f172a;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-        }
-
-        pre {
-            background-color: #090d16;
-            border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: #e2e8f0;
-            margin-bottom: 1rem;
-        }
-
-        .model-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .model-item {
-            background: #0f172a;
-            border: 1px solid var(--border);
-            padding: 0.6rem 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.85rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .model-item strong {
-            color: var(--accent);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-        }
-
-        .model-item span {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        .size-tag {
-            display: inline-block;
-            background: #1e293b;
-            color: #cbd5e1;
-            padding: 0.1rem 0.35rem;
-            border-radius: 0.25rem;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            margin-top: 0.15rem;
-        }
-
-        .vision-tag {
-            color: #38bdf8;
-            font-weight: 600;
-        }
-
-        .uncensored-tag {
-            color: #f43f5e;
-            font-weight: 600;
-        }
-
-        .cursor-tag {
-            color: #a855f7;
-            font-weight: 600;
-        }
-
-        .copy-model-btn {
-            align-self: flex-start;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #94a3b8;
-            padding: 0.15rem 0.4rem;
-            font-size: 0.7rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            margin-top: 0.25rem;
-        }
-
-        .copy-model-btn:hover {
-            color: #f8fafc;
-            border-color: #475569;
-        }
-
-        .arch-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            font-size: 0.85rem;
-        }
-
-        .arch-row {
-            background: #0f172a;
-            border: 1px solid var(--border);
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-        }
-
-        .arch-row strong {
-            display: block;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-        }
-
-        .arch-row code {
-            font-family: var(--font-mono);
-            color: var(--accent);
-            font-size: 0.8rem;
-        }
-
-        footer {
-            margin-top: 3rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background-color: var(--accent);
-            color: #0f172a;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            font-size: 0.85rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
+        :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--border:#334155;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:2rem 1rem;max-width:800px;margin:0 auto}
+        h1{font-size:1.75rem;margin-bottom:0.25rem}
+        .sub{color:var(--muted);font-size:0.9rem;margin-bottom:2rem}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1.5rem;margin-bottom:1.5rem}
+        .card h2{font-size:1.15rem;margin-bottom:0.75rem}
+        .badge{font-size:0.7rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:9999px;text-transform:uppercase}
+        .badge-live{background:rgba(34,197,94,.2);color:#22c55e;border:1px solid #22c55e}
+        .badge-unk{background:rgba(234,179,8,.2);color:#eab308;border:1px solid #eab308}
+        .url-box{background:#090d16;border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem 1rem;margin:0.5rem 0 1rem;font-family:var(--mono);font-size:0.85rem;word-break:break-all}
+        .url-box a{color:var(--accent);text-decoration:none}
+        .btn{background:#334155;color:var(--text);border:none;padding:0.35rem 0.75rem;border-radius:0.375rem;cursor:pointer;font-size:0.8rem;margin-right:0.5rem}
+        .btn:hover{background:#475569}
+        pre{background:#090d16;border:1px solid var(--border);padding:1rem;border-radius:0.5rem;overflow-x:auto;font-family:var(--mono);font-size:0.8rem;margin:0.5rem 0 1rem}
+        .model-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.5rem;margin:0.5rem 0 1rem}
+        .model-item{background:#0f172a;border:1px solid var(--border);padding:0.5rem 0.75rem;border-radius:0.375rem;font-size:0.8rem}
+        .model-item strong{color:var(--accent);font-family:var(--mono);display:block;margin-bottom:0.15rem}
+        .model-item span{color:var(--muted);font-size:0.72rem}
+        .tag{display:inline-block;padding:0.1rem 0.35rem;border-radius:0.25rem;font-size:0.68rem;font-family:var(--mono)}
+        .tag-vision{color:#38bdf8;font-weight:600}
+        .tag-cursor{color:#a855f7;font-weight:600}
+        .tag-local{color:#22c55e;font-weight:600}
+        .tag-audio{color:#f59e0b;font-weight:600}
+        .copy-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:0.1rem 0.4rem;font-size:0.68rem;border-radius:0.25rem;cursor:pointer;margin-top:0.25rem}
+        .copy-btn:hover{color:#f8fafc}
+        .arch{background:#0f172a;border:1px solid var(--border);padding:0.6rem 0.9rem;border-radius:0.4rem;margin-bottom:0.5rem;font-size:0.82rem}
+        .arch strong{color:#fff;display:block;margin-bottom:0.15rem}
+        .arch code{font-family:var(--mono);color:var(--accent);font-size:0.78rem}
+        .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent);color:#0f172a;padding:0.4rem 0.9rem;border-radius:0.375rem;font-weight:600;font-size:0.8rem;opacity:0;transition:opacity .3s;pointer-events:none}
+        .toast.show{opacity:1}
+        footer{margin-top:2rem;border-top:1px solid var(--border);padding-top:1rem;text-align:center;font-size:0.75rem;color:var(--muted)}
+        h3{font-size:0.95rem;margin:1rem 0 0.4rem}
     </style>
 </head>
 <body>
-    <header>
-        <div>
-            <h1>🚀 LLM Endpoints & Proxy Hub</h1>
-            <p class="subtitle">Live entry points for Ollama LiteLLM Proxy & Unsloth Studio (7900 XTX GPU Server)</p>
-        </div>
-        <button class="btn btn-primary" onclick="refreshAll()">Refresh All</button>
-    </header>
+    <h1>LLM Endpoints Hub</h1>
+    <p class="sub">LiteLLM Proxy + Ollama + Whisper on 7900 XTX GPU Server</p>
 
-    <main>
-        <!-- Architecture Card -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">🗺️ LiteLLM Setup Map</h2>
-                <span class="badge badge-live">Configured</span>
-            </div>
-            <div class="arch-grid">
-                <div class="arch-row">
-                    <strong>LiteLLM Proxy (Port 8000)</strong>
-                    Translates Anthropic <code>/v1/messages</code> & OpenAI <code>/v1/chat/completions</code> to Ollama.<br>
-                    Service: <code>systemctl --user status litellm-proxy.service</code><br>
-                    Config: <code>~/.config/litellm/config.yaml</code>
-                </div>
-                <div class="arch-row">
-                    <strong>Local Multimodal & Dense Models (Ollama Port 11434)</strong>
-                    Fara 1.5 Multimodal: <code>fara1.5</code>, <code>fara1.5-27b</code> (vision enabled)<br>
-                    Qwen 3.8 Uncensored: <code>qwen3.8-27b-uncensored</code> (15.7 GB + BF16 vision mmproj)<br>
-                    Qwen 3.8 / 3.6 Text: <code>qwen3.8-27b</code>, <code>qwen3.6-35b</code>
-                </div>
-                <div class="arch-row">
-                    <strong>Cursor / Advanced Catalog</strong>
-                    Models: <code>grok-4.6-high</code>, <code>composer2.5</code>, <code>gpt-5.6-luna-xhigh</code>, <code>gpt-5.6-sol-xhigh</code>, <code>glm-5.2-max</code>, <code>kimi-k3-high</code>
-                </div>
-                <div class="arch-row">
-                    <strong>Faster Whisper Audio Server (Port 8001)</strong>
-                    Models: <code>whisper-large-v3-turbo</code>, <code>whisper-large-v3</code>, <code>whisper-medium</code>, <code>whisper-1</code><br>
-                    Service: <code>systemctl --user status whisper-server.service</code>
-                </div>
-                <div class="arch-row">
-                    <strong>Unsloth Studio</strong>
-                    Port: <code>8888</code> • Service: <code>systemctl --user status unsloth-studio.service</code>
-                </div>
-            </div>
+    <div class="card">
+        <h2>LiteLLM Proxy <span id="llm-badge" class="badge badge-unk">Unchecked</span></h2>
+        <div class="url-box">
+            <a id="llm-url" href="#" target="_blank"><span id="llm-text">Loading...</span></a>
+            <button class="btn" onclick="copyText('llm-text')">Copy</button>
         </div>
 
-        <!-- LiteLLM Proxy Card -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">🤖 LiteLLM Proxy (Anthropic & OpenAI API)</h2>
-                <span id="litellm-badge" class="badge badge-unknown">Unchecked</span>
-            </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Compatible with Claude Code, Cursor, OpenCode, Aider, and standard OpenAI/Anthropic SDKs.</p>
-            
-            <div class="url-box">
-                <a id="litellm-url" href="https://shelf-plants-shark-thunder.trycloudflare.com" target="_blank"><span id="litellm-text">https://shelf-plants-shark-thunder.trycloudflare.com</span></a>
-                <div class="actions-row">
-                    <button class="btn" onclick="checkLiteLLMStatus()">Check Status</button>
-                    <button class="btn" onclick="copyText('litellm-text')">Copy URL</button>
-                </div>
-            </div>
+        <h3>Cursor / Advanced Models</h3>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-grok">grok-4.6-high</strong><span>Grok 4.6 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-grok')">Copy</button></div>
+            <div class="model-item"><strong id="m-composer">composer2.5</strong><span>Composer 2.5 <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-composer')">Copy</button></div>
+            <div class="model-item"><strong id="m-luna">gpt-5.6-luna-xhigh</strong><span>GPT 5.6 Luna <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-luna')">Copy</button></div>
+            <div class="model-item"><strong id="m-sol">gpt-5.6-sol-xhigh</strong><span>GPT 5.6 Sol <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-sol')">Copy</button></div>
+            <div class="model-item"><strong id="m-glm">glm-5.2-max</strong><span>GLM 5.2 Max <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-glm')">Copy</button></div>
+            <div class="model-item"><strong id="m-kimi">kimi-k3-high</strong><span>Kimi K3 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-kimi')">Copy</button></div>
+        </div>
 
-            <!-- Cursor / Advanced Models -->
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Cursor / Advanced Models</h3>
-            <div class="model-list">
-                <div class="model-item">
-                    <strong id="m-grok-46">grok-4.6-high</strong>
-                    <span>Grok 4.6 High • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-grok-46')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-composer-25">composer2.5</strong>
-                    <span>Composer 2.5 • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-composer-25')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-gpt-luna">gpt-5.6-luna-xhigh</strong>
-                    <span>GPT 5.6 Luna XHigh • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-gpt-luna')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-gpt-sol">gpt-5.6-sol-xhigh</strong>
-                    <span>GPT 5.6 Sol XHigh • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-gpt-sol')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-glm-max">glm-5.2-max</strong>
-                    <span>GLM 5.2 Max (Zhipu flagship) • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-glm-max')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-kimi-k3">kimi-k3-high</strong>
-                    <span>Kimi K3 High • <span class="cursor-tag">advanced</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-kimi-k3')">Copy Name</button>
-                </div>
-            </div>
+        <h3>Antigravity / Gemini & Opus</h3>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-gemini">gemini-4.7-flash</strong><span>Gemini 4.7 Flash <span class="tag tag-cursor">antigravity</span></span><button class="copy-btn" onclick="copyText('m-gemini')">Copy</button></div>
+            <div class="model-item"><strong id="m-opus">claude-opus-4.6</strong><span>Claude Opus 4.6 <span class="tag tag-cursor">antigravity</span></span><button class="copy-btn" onclick="copyText('m-opus')">Copy</button></div>
+        </div>
 
-            <!-- Local GPU Models -->
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Local 7900 XTX Models</h3>
-            <div class="model-list">
-                <div class="model-item">
-                    <strong id="m-fara15">fara1.5</strong>
-                    <span>27B Multimodal • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-fara15')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-fara15-27b">fara1.5-27b</strong>
-                    <span>27B Multimodal • <span class="vision-tag">vision</span> • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-fara15-27b')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen38-uncensored">qwen3.8-27b-uncensored</strong>
-                    <span>27B Uncensored • <span class="uncensored-tag">uncensored</span> • <span class="vision-tag">vision</span> • <span class="size-tag">16 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen38-uncensored')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen38-27b">qwen3.8-27b</strong>
-                    <span>27B Dense • <span class="size-tag">17 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen38-27b')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-qwen36-35b">qwen3.6-35b</strong>
-                    <span>35B MoE • <span class="size-tag">22 GB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-qwen36-35b')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-bge-small">bge-small-en-v1.5-f16</strong>
-                    <span>Embedding • <span class="size-tag">67 MB</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-bge-small')">Copy Name</button>
-                </div>
-            </div>
+        <h3>Local 7900 XTX Models</h3>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-fara">fara1.5</strong><span>27B Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-fara')">Copy</button></div>
+            <div class="model-item"><strong id="m-uncen">qwen3.8-uncensored</strong><span>27B Uncensored Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-uncen')">Copy</button></div>
+            <div class="model-item"><strong id="m-q38">qwen3.8-27b</strong><span>27B Dense <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q38')">Copy</button></div>
+            <div class="model-item"><strong id="m-q36">qwen3.6-35b</strong><span>35B MoE <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q36')">Copy</button></div>
+            <div class="model-item"><strong id="m-bge">bge-small-en-v1.5-f16</strong><span>Embedding <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-bge')">Copy</button></div>
+        </div>
 
-                        <!-- Speech-to-Text (Whisper) Models -->
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Speech-to-Text (Whisper Models)</h3>
-            <div class="model-list">
-                <div class="model-item">
-                    <strong id="m-whisper-v3-turbo">whisper-large-v3-turbo</strong>
-                    <span>Faster Whisper Large V3 Turbo • <span class="vision-tag">audio-transcribe</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-whisper-v3-turbo')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-whisper-v3">whisper-large-v3</strong>
-                    <span>Faster Whisper Large V3 • <span class="vision-tag">audio-transcribe</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-whisper-v3')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-whisper-medium">whisper-medium</strong>
-                    <span>Faster Whisper Medium • <span class="vision-tag">audio-transcribe</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-whisper-medium')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-whisper-1">whisper-1</strong>
-                    <span>OpenAI Whisper Alias (Large V3 Turbo)</span>
-                    <button class="copy-model-btn" onclick="copyText('m-whisper-1')">Copy Name</button>
-                </div>
-            </div>
-                        <!-- Antigravity / Gemini Flash & Opus 4.6 -->
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Antigravity / Gemini Flash & Opus 4.6</h3>
-            <div class="model-list">
-                <div class="model-item">
-                    <strong id="m-gemini-47-flash">gemini-4.7-flash</strong>
-                    <span>Google Gemini 4.7 Flash • <span class="cursor-tag">antigravity</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-gemini-47-flash')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-claude-opus-46">claude-opus-4.6</strong>
-                    <span>Anthropic Claude Opus 4.6 • <span class="cursor-tag">antigravity</span></span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-opus-46')">Copy Name</button>
-                </div>
-            </div>
+        <h3>Whisper Audio</h3>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-w1">whisper-1</strong><span>OpenAI alias <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-w1')">Copy</button></div>
+            <div class="model-item"><strong id="m-wturbo">whisper-large-v3-turbo</strong><span>Large V3 Turbo <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-wturbo')">Copy</button></div>
+        </div>
 
-            <!-- Claude Aliases -->
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code Aliases</h3>
-            <div class="model-list">
-                <div class="model-item">
-                    <strong id="m-claude-37-sonnet">claude-3-7-sonnet-20250219</strong>
-                    <span>Alias • Mapped to local GPU model</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-37-sonnet')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-claude-35-sonnet">claude-3-5-sonnet-20241022</strong>
-                    <span>Alias • Mapped to local GPU model</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-35-sonnet')">Copy Name</button>
-                </div>
-                <div class="model-item">
-                    <strong id="m-claude-3-opus">claude-3-opus-20240229</strong>
-                    <span>Alias • Mapped to local GPU model</span>
-                    <button class="copy-model-btn" onclick="copyText('m-claude-3-opus')">Copy Name</button>
-                </div>
-            </div>
+        <h3>Claude Code Aliases</h3>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-c37">claude-3-7-sonnet-20250219</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c37')">Copy</button></div>
+            <div class="model-item"><strong id="m-c35">claude-3-5-sonnet-20241022</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c35')">Copy</button></div>
+            <div class="model-item"><strong id="m-c3o">claude-3-opus-20240229</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c3o')">Copy</button></div>
+        </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Claude Code / Anthropic API Setup</h3>
-            <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://shelf-plants-shark-thunder.trycloudflare.com</span>"
-export ANTHROPIC_API_KEY="<your-litellm-api-key>"
+        <h3>Setup</h3>
+        <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">...</span>"
+export ANTHROPIC_API_KEY="&lt;your-litellm-api-key&gt;"
 claude</pre>
+        <pre>export OPENAI_BASE_URL="<span id="oai-url">...</span>"
+export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
+    </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">OpenAI API / Client Setup</h3>
-            <pre>export OPENAI_BASE_URL="<span id="openai-url">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>"
-export OPENAI_API_KEY="<your-litellm-api-key>"</pre>
+    <div class="card">
+        <h2>Architecture</h2>
+        <div class="arch"><strong>LiteLLM Proxy (port 8000)</strong>Auth via <code>master_key</code> • Anthropic + OpenAI API compatible</div>
+        <div class="arch"><strong>Ollama (port 11434)</strong>Local GPU models: Fara 1.5, Qwen 3.8/3.6</div>
+        <div class="arch"><strong>cursor2api (port 3010)</strong>Cursor Pro+ session → OpenAI-compatible API</div>
+        <div class="arch"><strong>Whisper Server (port 8001)</strong>Faster-Whisper large-v3-turbo + medium</div>
+    </div>
 
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Multimodal / Vision API Setup</h3>
-            <pre># OpenAI Python SDK with Vision:
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="<span id="openai-url-vision">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>",
-    api_key="<your-litellm-api-key>"
-)
-
-# Supported vision models: "fara1.5", "qwen3.8-27b-uncensored"
-response = client.chat.completions.create(
-    model="fara1.5",
-    messages=[{
-        "role": "user",
-        "content": [
-            {"type": "text", "text": "Describe the contents of this screenshot."},
-            {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}}
-        ]
-    }]
-)
-print(response.choices[0].message.content)</pre>
-            <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">Audio / Whisper Transcription Setup</h3>
-            <pre># OpenAI Python SDK Audio Transcription:
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="<span id="openai-url-audio">https://shelf-plants-shark-thunder.trycloudflare.com/v1</span>",
-    api_key="<your-litellm-api-key>"
-)
-
-# Supported models: "whisper-1", "whisper-large-v3-turbo", "whisper-large-v3", "whisper-medium"
-with open("audio.mp3", "rb") as audio_file:
-    transcription = client.audio.transcriptions.create(
-        model="whisper-large-v3-turbo",
-        file=audio_file
-    )
-print("Transcript:", transcription.text)</pre>
-
-        </div>
-
-        <!-- Unsloth Studio Card -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">⚡ Unsloth Studio Web UI</h2>
-                <span id="unsloth-badge" class="badge badge-unknown">Unchecked</span>
-            </div>
-            <p style="color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Web UI for Unsloth training, fine-tuning, and GGUF exports.</p>
-            <div class="url-box">
-                <a id="unsloth-url" href="https://achieving-fell-enter-exceed.trycloudflare.com" target="_blank"><span id="unsloth-text">https://achieving-fell-enter-exceed.trycloudflare.com</span></a>
-                <div class="actions-row">
-                    <button class="btn" onclick="checkUnslothStatus()">Check Status</button>
-                    <button class="btn" onclick="copyText('unsloth-text')">Copy URL</button>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            Updated dynamically via GitHub Pages • <a href="endpoints.json" style="color: var(--accent);">endpoints.json</a>
-            <div id="last-updated" style="margin-top: 0.4rem; color: var(--text-muted); font-size: 0.75rem;"></div>
-        </footer>
-    </main>
-
-    <div id="toast" class="toast">Copied to clipboard!</div>
+    <footer>Updated via GitHub Pages • <a href="endpoints.json" style="color:var(--accent)">endpoints.json</a></footer>
+    <div id="toast" class="toast">Copied!</div>
 
     <script>
-        let endpointsData = null;
-
-        async function loadEndpoints() {
-            try {
-                const res = await fetch('endpoints.json?t=' + Date.now());
-                if (!res.ok) throw new Error("HTTP " + res.status);
-                endpointsData = await res.json();
-                
-                if (endpointsData.litellm_proxy && endpointsData.litellm_proxy.url) {
-                    const lUrl = endpointsData.litellm_proxy.url;
-                    document.getElementById('litellm-url').href = lUrl;
-                    document.getElementById('litellm-text').textContent = lUrl;
-                    document.getElementById('cli-url').textContent = lUrl;
-                    document.getElementById('openai-url').textContent = lUrl + '/v1';
-                    const visEl = document.getElementById('openai-url-vision');
-                    if (visEl) visEl.textContent = lUrl + '/v1';
-                }
-
-                if (endpointsData.unsloth_studio && endpointsData.unsloth_studio.url) {
-                    const uUrl = endpointsData.unsloth_studio.url;
-                    document.getElementById('unsloth-url').href = uUrl;
-                    document.getElementById('unsloth-text').textContent = uUrl;
-                }
-
-                if (endpointsData.updated_at) {
-                    const d = new Date(endpointsData.updated_at);
-                    document.getElementById('last-updated').textContent = "Last synchronized: " + d.toLocaleString();
-                }
-
-                checkAll();
-            } catch (err) {
-                console.error("Failed to load endpoints.json", err);
-            }
-        }
-
-        async function checkUrl(url) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 6000);
-                const res = await fetch(url + '/healthz', { mode: 'no-cors', signal: controller.signal });
-                clearTimeout(timeoutId);
-                return true;
-            } catch (e) {
-                try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 6000);
-                    await fetch(url, { mode: 'no-cors', signal: controller.signal });
-                    clearTimeout(timeoutId);
-                    return true;
-                } catch (err) {
-                    return false;
-                }
-            }
-        }
-
-        async function checkLiteLLMStatus() {
-            const badge = document.getElementById('litellm-badge');
-            badge.className = 'badge badge-unknown';
-            badge.textContent = 'Checking...';
-            const url = document.getElementById('litellm-text').textContent;
-            const ok = await checkUrl(url);
-            badge.className = ok ? 'badge badge-live' : 'badge badge-down';
-            badge.textContent = ok ? 'Live' : 'Offline';
-        }
-
-        async function checkUnslothStatus() {
-            const badge = document.getElementById('unsloth-badge');
-            badge.className = 'badge badge-unknown';
-            badge.textContent = 'Checking...';
-            const url = document.getElementById('unsloth-text').textContent;
-            const ok = await checkUrl(url);
-            badge.className = ok ? 'badge badge-live' : 'badge badge-down';
-            badge.textContent = ok ? 'Live' : 'Offline';
-        }
-
-        function checkAll() {
-            checkLiteLLMStatus();
-            checkUnslothStatus();
-        }
-
-        function refreshAll() {
-            loadEndpoints();
-        }
-
-        function copyText(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const text = el.textContent || el.innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                showToast("Copied: " + text);
-            }).catch(err => {
-                console.error("Could not copy text: ", err);
-            });
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadEndpoints);
+    async function load(){try{const r=await fetch('endpoints.json?t='+Date.now());const d=await r.json();
+    if(d.litellm_proxy&&d.litellm_proxy.url){const u=d.litellm_proxy.url;
+    document.getElementById('llm-url').href=u;document.getElementById('llm-text').textContent=u;
+    document.getElementById('cli-url').textContent=u;document.getElementById('oai-url').textContent=u+'/v1';}
+    check();}catch(e){console.error(e);}}
+    async function check(){try{const b=document.getElementById('llm-badge');
+    await fetch(document.getElementById('llm-text').textContent,{mode:'no-cors'});
+    b.className='badge badge-live';b.textContent='Live';}catch(e){
+    const b=document.getElementById('llm-badge');b.className='badge badge-unk';b.textContent='Offline';}}
+    function copyText(id){const t=document.getElementById(id).textContent;navigator.clipboard.writeText(t);
+    const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1500);}
+    document.addEventListener('DOMContentLoaded',load);
     </script>
 </body>
 </html>
