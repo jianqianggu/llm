@@ -49,45 +49,45 @@
         <h2>LiteLLM Proxy <span id="llm-badge" class="badge badge-unk">Checking...</span></h2>
         <div class="url-box">
             <a id="llm-url" href="#" target="_blank"><span id="llm-text">Loading...</span></a>
-            <button class="btn" onclick="copyText(llm-text)">Copy</button>
+            <button class="btn" onclick="copyText('llm-text')">Copy</button>
         </div>
 
         <h3>Cursor / Advanced Models</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-grok">grok-4.6-high</strong><span>Grok 4.6 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-grok)">Copy</button></div>
-            <div class="model-item"><strong id="m-composer">composer2.5</strong><span>Composer 2.5 <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-composer)">Copy</button></div>
-            <div class="model-item"><strong id="m-luna">gpt-5.6-luna-xhigh</strong><span>GPT 5.6 Luna <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-luna)">Copy</button></div>
-            <div class="model-item"><strong id="m-sol">gpt-5.6-sol-xhigh</strong><span>GPT 5.6 Sol <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-sol)">Copy</button></div>
-            <div class="model-item"><strong id="m-glm">glm-5.2-max</strong><span>GLM 5.2 Max <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-glm)">Copy</button></div>
-            <div class="model-item"><strong id="m-kimi">kimi-k3-high</strong><span>Kimi K3 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText(m-kimi)">Copy</button></div>
+            <div class="model-item"><strong id="m-grok">grok-4.6-high</strong><span>Grok 4.6 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-grok')">Copy</button></div>
+            <div class="model-item"><strong id="m-composer">composer2.5</strong><span>Composer 2.5 <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-composer')">Copy</button></div>
+            <div class="model-item"><strong id="m-luna">gpt-5.6-luna-xhigh</strong><span>GPT 5.6 Luna <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-luna')">Copy</button></div>
+            <div class="model-item"><strong id="m-sol">gpt-5.6-sol-xhigh</strong><span>GPT 5.6 Sol <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-sol')">Copy</button></div>
+            <div class="model-item"><strong id="m-glm">glm-5.2-max</strong><span>GLM 5.2 Max <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-glm')">Copy</button></div>
+            <div class="model-item"><strong id="m-kimi">kimi-k3-high</strong><span>Kimi K3 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-kimi')">Copy</button></div>
         </div>
 
         <h3>Antigravity / Gemini & Opus</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3.7-flash</strong><span>Antigravity Gemini Flash <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText(m-gemini)">Copy</button></div>
-            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-4.6</strong><span>Antigravity Claude Opus 4.6 <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText(m-opus)">Copy</button></div>
+            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3.7-flash</strong><span>Antigravity Gemini Flash <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-gemini')">Copy</button></div>
+            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-4.6</strong><span>Antigravity Claude Opus 4.6 <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-opus')">Copy</button></div>
         </div>
 
         <h3>Local 7900 XTX Models</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-fara">fara1.5</strong><span>27B Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText(m-fara)">Copy</button></div>
-            <div class="model-item"><strong id="m-uncen">qwen3.8-uncensored</strong><span>27B Uncensored Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText(m-uncen)">Copy</button></div>
-            <div class="model-item"><strong id="m-q38">qwen3.8-27b</strong><span>27B Dense <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText(m-q38)">Copy</button></div>
-            <div class="model-item"><strong id="m-q36">qwen3.6-35b</strong><span>35B MoE <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText(m-q36)">Copy</button></div>
-            <div class="model-item"><strong id="m-bge">bge-small-en-v1.5-f16</strong><span>Embedding <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText(m-bge)">Copy</button></div>
+            <div class="model-item"><strong id="m-fara">fara1.5</strong><span>27B Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-fara')">Copy</button></div>
+            <div class="model-item"><strong id="m-uncen">qwen3.8-uncensored</strong><span>27B Uncensored Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-uncen')">Copy</button></div>
+            <div class="model-item"><strong id="m-q38">qwen3.8-27b</strong><span>27B Dense <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q38')">Copy</button></div>
+            <div class="model-item"><strong id="m-q36">qwen3.6-35b</strong><span>35B MoE <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q36')">Copy</button></div>
+            <div class="model-item"><strong id="m-bge">bge-small-en-v1.5-f16</strong><span>Embedding <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-bge')">Copy</button></div>
         </div>
 
         <h3>Whisper Audio</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-w1">whisper-1</strong><span>OpenAI alias <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText(m-w1)">Copy</button></div>
-            <div class="model-item"><strong id="m-wturbo">whisper-large-v3-turbo</strong><span>Large V3 Turbo <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText(m-wturbo)">Copy</button></div>
+            <div class="model-item"><strong id="m-w1">whisper-1</strong><span>OpenAI alias <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-w1')">Copy</button></div>
+            <div class="model-item"><strong id="m-wturbo">whisper-large-v3-turbo</strong><span>Large V3 Turbo <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-wturbo')">Copy</button></div>
         </div>
 
         <h3>Claude Code Aliases</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-c37">claude-3-7-sonnet-20250219</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText(m-c37)">Copy</button></div>
-            <div class="model-item"><strong id="m-c35">claude-3-5-sonnet-20241022</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText(m-c35)">Copy</button></div>
-            <div class="model-item"><strong id="m-c3o">claude-3-opus-20240229</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText(m-c3o)">Copy</button></div>
+            <div class="model-item"><strong id="m-c37">claude-3-7-sonnet-20250219</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c37')">Copy</button></div>
+            <div class="model-item"><strong id="m-c35">claude-3-5-sonnet-20241022</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c35')">Copy</button></div>
+            <div class="model-item"><strong id="m-c3o">claude-3-opus-20240229</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c3o')">Copy</button></div>
         </div>
 
         <h3>Setup</h3>
@@ -112,20 +112,72 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
 
     <script>
     async function load(){
-      try{
-        const r=await fetch(endpoints.json?t=+Date.now());
-        const d=await r.json();
-        const u=(d.litellm_proxy && d.litellm_proxy.url) || d.anthropic_base_url || (d.openai_base_url ? d.openai_base_url.replace(/\/v1\/?$/, ) : );
-        if(u && u.startsWith(http)){
-          const urlEl=document.getElementById(llm-url);
-          if(urlEl) urlEl.href=u;
-          const textEl=document.getElementById(llm-text);
-          if(textEl) textEl.textContent=u;
-          const cliEl=document.getElementById(cli-url);
-          if(cliEl) cliEl.textContent=u;
-          const oaiEl=document.getElementById(oai-url);
-          if(oaiEl) oaiEl.textContent=u+/v1;
+      try {
+        const r = await fetch('endpoints.json?t=' + Date.now());
+        const d = await r.json();
+        const u = (d.litellm_proxy && d.litellm_proxy.url) || d.anthropic_base_url || (d.openai_base_url ? d.openai_base_url.replace(/\/v1\/?$/, '') : '');
+        if (u && u.startsWith('http')) {
+          const urlEl = document.getElementById('llm-url');
+          if (urlEl) urlEl.href = u;
+          const textEl = document.getElementById('llm-text');
+          if (textEl) textEl.textContent = u;
+          const cliEl = document.getElementById('cli-url');
+          if (cliEl) cliEl.textContent = u;
+          const oaiEl = document.getElementById('oai-url');
+          if (oaiEl) oaiEl.textContent = u + '/v1';
           check(u);
         } else {
-          const b=document.getElementById(llm-badge);
-          if(b){ b.className=badge
+          const b = document.getElementById('llm-badge');
+          if (b) { b.className = 'badge badge-unk'; b.textContent = 'Offline'; }
+        }
+      } catch(e) {
+        console.error(e);
+        const b = document.getElementById('llm-badge');
+        if (b) { b.className = 'badge badge-unk'; b.textContent = 'Offline'; }
+      }
+    }
+
+    async function check(u){
+      const b = document.getElementById('llm-badge');
+      if (!b) return;
+      b.className = 'badge badge-unk';
+      b.textContent = 'Checking...';
+      try {
+        if (!u || !u.startsWith('http')) { throw new Error('no url'); }
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        await fetch(u.replace(/\/+$/, '') + '/healthz', { mode: 'no-cors', signal: controller.signal });
+        clearTimeout(timeoutId);
+        b.className = 'badge badge-live';
+        b.textContent = 'Live';
+      } catch(e) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 6000);
+          await fetch(u, { mode: 'no-cors', signal: controller.signal });
+          clearTimeout(timeoutId);
+          b.className = 'badge badge-live';
+          b.textContent = 'Live';
+        } catch(err) {
+          b.className = 'badge badge-unk';
+          b.textContent = 'Offline';
+        }
+      }
+    }
+
+    function copyText(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      const t = el.textContent;
+      navigator.clipboard.writeText(t);
+      const toast = document.getElementById('toast');
+      if (toast) {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1500);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', load);
+    </script>
+</body>
+</html>
