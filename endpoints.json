@@ -1,6 +1,9 @@
 {
   "anthropic_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
   "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
+  "litellm_proxy": {
+    "url": "https://shelf-plants-shark-thunder.trycloudflare.com"
+  },
   "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",

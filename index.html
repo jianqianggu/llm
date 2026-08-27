@@ -111,15 +111,33 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
     <div id="toast" class="toast">Copied!</div>
 
     <script>
-    async function load(){try{const r=await fetch('endpoints.json?t='+Date.now());const d=await r.json();
-    if(d.litellm_proxy&&d.litellm_proxy.url){const u=d.litellm_proxy.url;
-    document.getElementById('llm-url').href=u;document.getElementById('llm-text').textContent=u;
-    document.getElementById('cli-url').textContent=u;document.getElementById('oai-url').textContent=u+'/v1';}
-    check();}catch(e){console.error(e);}}
-    async function check(){try{const b=document.getElementById('llm-badge');
-    await fetch(document.getElementById('llm-text').textContent,{mode:'no-cors'});
-    b.className='badge badge-live';b.textContent='Live';}catch(e){
-    const b=document.getElementById('llm-badge');b.className='badge badge-unk';b.textContent='Offline';}}
+    async function load(){
+      try{
+        const r=await fetch('endpoints.json?t='+Date.now());
+        const d=await r.json();
+        const u=d.litellm_proxy?.url || d.anthropic_base_url
+          || d.openai_base_url?.replace(/\/v1\/?$/, '');
+        if(u){
+          document.getElementById('llm-url').href=u;
+          document.getElementById('llm-text').textContent=u;
+          document.getElementById('cli-url').textContent=u;
+          document.getElementById('oai-url').textContent=u+'/v1';
+        }
+        await check(u);
+      }catch(e){console.error(e);}
+    }
+    async function check(u){
+      const b=document.getElementById('llm-badge');
+      try{
+        if(!u){throw new Error('no url');}
+        const r=await fetch(u.replace(/\/+$/, '')+'/health/readiness');
+        const healthy=r.ok && (await r.json()).status==='healthy';
+        if(!healthy){throw new Error('unhealthy');}
+        b.className='badge badge-live';b.textContent='Live';
+      }catch(e){
+        b.className='badge badge-unk';b.textContent='Offline';
+      }
+    }
     function copyText(id){const t=document.getElementById(id).textContent;navigator.clipboard.writeText(t);
     const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1500);}
     document.addEventListener('DOMContentLoaded',load);
