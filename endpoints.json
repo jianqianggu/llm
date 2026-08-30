@@ -1,10 +1,10 @@
 {
-  "anthropic_base_url": "https://categories-catalogue-sep-enormous.trycloudflare.com",
-  "openai_base_url": "https://categories-catalogue-sep-enormous.trycloudflare.com/v1",
+  "anthropic_base_url": "https://describe-penny-coal-varies.trycloudflare.com",
+  "openai_base_url": "https://describe-penny-coal-varies.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://categories-catalogue-sep-enormous.trycloudflare.com"
+    "url": "https://describe-penny-coal-varies.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://trustee-vista-nation-respective.trycloudflare.com",
+  "unsloth_studio_url": "https://neither-delete-reasonably-vancouver.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",
     "composer2.5": "openai/composer-2.5",
@@ -111,5 +111,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-30T11:28:09.004504+00:00"
+  "updated_at": "2026-08-30T11:50:27.831701+00:00"
 }
