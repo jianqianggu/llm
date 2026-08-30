@@ -1,10 +1,10 @@
 {
-  "anthropic_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com",
-  "openai_base_url": "https://shelf-plants-shark-thunder.trycloudflare.com/v1",
+  "anthropic_base_url": "https://turned-percentage-cornell-descriptions.trycloudflare.com",
+  "openai_base_url": "https://turned-percentage-cornell-descriptions.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://shelf-plants-shark-thunder.trycloudflare.com"
+    "url": "https://turned-percentage-cornell-descriptions.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://achieving-fell-enter-exceed.trycloudflare.com",
+  "unsloth_studio_url": "https://handed-fits-mercury-describing.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",
     "composer2.5": "openai/composer-2.5",
@@ -111,5 +111,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-26T23:53:40.428504+00:00"
+  "updated_at": "2026-08-30T06:27:00.000000+00:00"
 }

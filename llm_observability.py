@@ -16,6 +16,7 @@ SERVICES = [
     {"name": "cursor-api-proxy",  "type": "http", "url": "http://127.0.0.1:8765/health",    "auth": True,  "port": 8765},
     {"name": "antigravity-proxy", "type": "http", "url": "http://127.0.0.1:8766/v1/models","auth": False, "port": 8766},
     {"name": "Whisper Server",    "type": "http", "url": "http://127.0.0.1:8001/healthz",   "auth": False, "port": 8001},
+    {"name": "Unsloth Studio",    "type": "http", "url": "http://127.0.0.1:8888/api/health", "auth": False, "port": 8888},
 ]
 
 MODELS_TO_TEST = [
