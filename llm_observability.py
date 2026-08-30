@@ -8,7 +8,28 @@ CHECK_INTERVAL = int(os.environ.get("OBS_INTERVAL", "60"))
 DB_PATH = Path(os.environ.get("OBS_DB", os.path.expanduser("~/.local/share/llm-observability/status.db")))
 HTML_PATH = Path(os.environ.get("OBS_HTML", os.path.expanduser("~/src/llm/status.html")))
 LOG_PATH = Path(os.environ.get("OBS_LOG", os.path.expanduser("~/.local/share/llm-observability/status.jsonl")))
-API_KEY = os.environ.get("OBS_API_KEY", "sk-live-072fba7cd49fa1de5553d1259225517b")
+
+def load_api_key() -> str:
+    key_file = os.environ.get("OBS_API_KEY_FILE", "").strip()
+    if key_file:
+        path = Path(key_file).expanduser()
+        if not path.is_file():
+            raise SystemExit(f"OBS_API_KEY_FILE not found: {path}")
+        key = path.read_text(encoding="utf-8").strip()
+        if not key:
+            raise SystemExit(f"OBS_API_KEY_FILE is empty: {path}")
+        return key
+    key = os.environ.get("OBS_API_KEY", "").strip()
+    if not key:
+        raise SystemExit(
+            "Missing LiteLLM key. Set OBS_API_KEY or OBS_API_KEY_FILE "
+            "(mode 0600). Do not hardcode secrets in git."
+        )
+    return key
+
+
+API_KEY = load_api_key()
+
 
 SERVICES = [
     {"name": "LiteLLM Proxy",     "type": "http", "url": "http://127.0.0.1:8000/v1/models", "auth": True,  "port": 8000},
