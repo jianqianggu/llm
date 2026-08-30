@@ -1,10 +1,10 @@
 {
-  "anthropic_base_url": "https://turned-percentage-cornell-descriptions.trycloudflare.com",
-  "openai_base_url": "https://turned-percentage-cornell-descriptions.trycloudflare.com/v1",
+  "anthropic_base_url": "https://categories-catalogue-sep-enormous.trycloudflare.com",
+  "openai_base_url": "https://categories-catalogue-sep-enormous.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://turned-percentage-cornell-descriptions.trycloudflare.com"
+    "url": "https://categories-catalogue-sep-enormous.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://handed-fits-mercury-describing.trycloudflare.com",
+  "unsloth_studio_url": "https://trustee-vista-nation-respective.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",
     "composer2.5": "openai/composer-2.5",
@@ -111,5 +111,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-30T10:38:35.709083+00:00"
+  "updated_at": "2026-08-30T11:23:07.599910+00:00"
 }
