@@ -146,7 +146,7 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
           if (unslothUrlEl) unslothUrlEl.href = unslothU;
           const unslothTextEl = document.getElementById('unsloth-text');
           if (unslothTextEl) unslothTextEl.textContent = unslothU;
-          check(unslothU, 'unsloth-badge', '/api/health');
+          checkUnsloth(unslothU);
         } else {
           const b = document.getElementById('unsloth-badge');
           if (b) { b.className = 'badge badge-down'; b.textContent = 'Offline'; }
@@ -157,6 +157,30 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
         if (b) { b.className = 'badge badge-down'; b.textContent = 'Offline'; }
         const ub = document.getElementById('unsloth-badge');
         if (ub) { ub.className = 'badge badge-down'; ub.textContent = 'Offline'; }
+      }
+    }
+
+    
+    async function checkUnsloth(u){
+      const b = document.getElementById('unsloth-badge');
+      if (!b) return;
+      b.className = 'badge badge-unk';
+      b.textContent = 'Checking...';
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const res = await fetch(u.replace(/\/+$/, '') + '/api/health', { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error('http ' + res.status);
+        const data = await res.json();
+        if (!data || data.status !== 'healthy' || !String(data.service || '').includes('Unsloth')) {
+          throw new Error('not unsloth');
+        }
+        b.className = 'badge badge-live';
+        b.textContent = 'Live';
+      } catch (e) {
+        b.className = 'badge badge-down';
+        b.textContent = 'Offline';
       }
     }
 
