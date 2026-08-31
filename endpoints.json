@@ -4,7 +4,7 @@
   "litellm_proxy": {
     "url": "https://describe-penny-coal-varies.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://describe-penny-coal-varies.trycloudflare.com",
+  "unsloth_studio_url": "https://neither-delete-reasonably-vancouver.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",
     "composer2.5": "openai/composer-2.5",
@@ -111,5 +111,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-31T00:25:27.764226+00:00"
+  "updated_at": "2026-08-31T00:28:24.322228+00:00"
 }
