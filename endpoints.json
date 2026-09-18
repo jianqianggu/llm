@@ -1,8 +1,8 @@
 {
-  "anthropic_base_url": "https://describe-penny-coal-varies.trycloudflare.com",
-  "openai_base_url": "https://describe-penny-coal-varies.trycloudflare.com/v1",
+  "anthropic_base_url": "https://room-political-tunnel-electric.trycloudflare.com",
+  "openai_base_url": "https://room-political-tunnel-electric.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://describe-penny-coal-varies.trycloudflare.com"
+    "url": "https://room-political-tunnel-electric.trycloudflare.com"
   },
   "unsloth_studio_url": "https://neither-delete-reasonably-vancouver.trycloudflare.com",
   "models": {
@@ -111,5 +111,5 @@
       ]
     }
   },
-  "updated_at": "2026-09-18T12:01:36.452399+00:00"
+  "updated_at": "2026-09-18T12:07:31.826059+00:00"
 }
