@@ -5,125 +5,321 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM Endpoints Hub</title>
     <style>
-        :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--border:#334155;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+        :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--border:#334155;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:2rem 1rem;max-width:800px;margin:0 auto}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);padding:1.5rem;max-width:960px;margin:0 auto;line-height:1.5}
         h1{font-size:1.75rem;margin-bottom:0.25rem}
         .sub{color:var(--muted);font-size:0.9rem;margin-bottom:2rem}
         .card{background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1.5rem;margin-bottom:1.5rem}
-        .card h2{font-size:1.15rem;margin-bottom:0.75rem}
+        .card h2{font-size:1.15rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
         .badge{font-size:0.7rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:9999px;text-transform:uppercase}
         .badge-live{background:rgba(34,197,94,.2);color:#22c55e;border:1px solid #22c55e}
         .badge-unk{background:rgba(234,179,8,.2);color:#eab308;border:1px solid #eab308}
         .badge-down{background:rgba(239,68,68,.2);color:#ef4444;border:1px solid #ef4444}
-        .url-box{background:#090d16;border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem 1rem;margin:0.5rem 0 1rem;font-family:var(--mono);font-size:0.85rem;word-break:break-all}
+        .url-box{background:#090d16;border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem 1rem;margin:0.5rem 0 1rem;display:flex;align-items:center;justify-content:space-between;word-break:break-all;font-family:var(--mono);font-size:0.85rem;gap:0.75rem}
         .url-box a{color:var(--accent);text-decoration:none}
-        .btn{background:#334155;color:var(--text);border:none;padding:0.35rem 0.75rem;border-radius:0.375rem;cursor:pointer;font-size:0.8rem;margin-right:0.5rem}
+        .btn{background:#334155;color:var(--text);border:none;padding:0.4rem 0.85rem;border-radius:0.375rem;cursor:pointer;font-size:0.8rem;transition:background .15s}
         .btn:hover{background:#475569}
-        pre{background:#090d16;border:1px solid var(--border);padding:1rem;border-radius:0.5rem;overflow-x:auto;font-family:var(--mono);font-size:0.8rem;margin:0.5rem 0 1rem}
+        .btn:disabled{opacity:0.5;cursor:not-allowed}
+        .btn-primary{background:#0284c7;color:#fff}
+        .btn-primary:hover{background:#0369a1}
+        pre{background:#090d16;border:1px solid var(--border);padding:1rem;border-radius:0.5rem;overflow-x:auto;font-family:var(--mono);font-size:0.8rem;line-height:1.45;margin-bottom:0.75rem}
         .model-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.5rem;margin:0.5rem 0 1rem}
-        .model-item{background:#0f172a;border:1px solid var(--border);padding:0.5rem 0.75rem;border-radius:0.375rem;font-size:0.8rem}
+        .model-item{background:#0f172a;border:1px solid var(--border);padding:0.5rem 0.75rem;border-radius:0.375rem;font-size:0.8rem;position:relative}
         .model-item strong{color:var(--accent);font-family:var(--mono);display:block;margin-bottom:0.15rem}
         .model-item span{color:var(--muted);font-size:0.72rem}
-        .tag{display:inline-block;padding:0.1rem 0.35rem;border-radius:0.25rem;font-size:0.68rem;font-family:var(--mono)}
+        .tag{display:inline-block;padding:0.1rem 0.35rem;border-radius:0.25rem;font-size:0.68rem;font-family:var(--mono);margin-left:0.25rem}
         .tag-vision{color:#38bdf8;font-weight:600}
         .tag-cursor{color:#a855f7;font-weight:600}
         .tag-local{color:#22c55e;font-weight:600}
         .tag-audio{color:#f59e0b;font-weight:600}
         .tag-antigravity{color:#ef4444;font-weight:600}
-        .copy-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:0.1rem 0.4rem;font-size:0.68rem;border-radius:0.25rem;cursor:pointer;margin-top:0.25rem}
+        .copy-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:0.1rem 0.4rem;font-size:0.68rem;border-radius:0.25rem;cursor:pointer;position:absolute;top:0.4rem;right:0.4rem}
         .copy-btn:hover{color:#f8fafc}
-        .arch{background:#0f172a;border:1px solid var(--border);padding:0.6rem 0.9rem;border-radius:0.4rem;margin-bottom:0.5rem;font-size:0.82rem}
+        .arch{background:#0f172a;border:1px solid var(--border);padding:0.6rem 0.9rem;border-radius:0.4rem;margin-bottom:0.4rem;font-size:0.8rem}
         .arch strong{color:#fff;display:block;margin-bottom:0.15rem}
         .arch code{font-family:var(--mono);color:var(--accent);font-size:0.78rem}
-        .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent);color:#0f172a;padding:0.4rem 0.9rem;border-radius:0.375rem;font-weight:600;font-size:0.8rem;opacity:0;transition:opacity .3s;pointer-events:none}
+        .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent);color:#0f172a;padding:0.4rem 0.9rem;border-radius:0.375rem;font-size:0.8rem;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:99}
         .toast.show{opacity:1}
         footer{margin-top:2rem;border-top:1px solid var(--border);padding-top:1rem;text-align:center;font-size:0.75rem;color:var(--muted)}
         h3{font-size:0.95rem;margin:1rem 0 0.4rem}
+        .chat-input{width:100%;background:#090d16;border:1px solid var(--border);border-radius:0.375rem;padding:0.5rem 0.75rem;color:var(--text);font-family:var(--mono);font-size:0.82rem}
+        .chat-input:focus{outline:none;border-color:var(--accent)}
+        .chat-textarea{width:100%;background:#090d16;border:1px solid var(--border);border-radius:0.375rem;padding:0.5rem 0.75rem;color:var(--text);font-family:inherit;font-size:0.85rem;resize:vertical}
+        .chat-textarea:focus{outline:none;border-color:var(--accent)}
+        .bench-table{width:100%;border-collapse:collapse;font-size:0.76rem;margin:0.5rem 0 0.75rem;font-family:var(--mono)}
+        .bench-table th{border-bottom:1px solid var(--border);text-align:left;padding:0.45rem 0.6rem;color:var(--muted);font-weight:600}
+        .bench-table td{padding:0.45rem 0.6rem;border-bottom:1px solid rgba(51,65,85,.4)}
+        .footnote{color:#64748b;font-size:0.7rem;line-height:1.45;margin-bottom:0.35rem}
     </style>
 </head>
 <body>
     <h1>LLM Endpoints Hub</h1>
-    <p class="sub">LiteLLM Proxy + Ollama + Whisper on 7900 XTX GPU Server</p>
+    <p class="sub">LiteLLM Proxy + Strata (HIP) + llama.cpp on RX 7900 XTX GPU Server</p>
 
+    <!-- LiteLLM Gateway Card -->
     <div class="card">
         <h2>LiteLLM Proxy <span id="llm-badge" class="badge badge-unk">Checking...</span></h2>
         <div class="url-box">
-            <a id="llm-url" href="https://sbjct-extension-modelling-gonna.trycloudflare.com" target="_blank"><span id="llm-text">https://sbjct-extension-modelling-gonna.trycloudflare.com</span></a>
+            <a id="llm-url" href="https://devel-watches-porter-hydraulic.trycloudflare.com" target="_blank"><span id="llm-text">https://devel-watches-porter-hydraulic.trycloudflare.com</span></a>
             <button class="btn" onclick="copyText('llm-text')">Copy</button>
         </div>
 
-        <h3>Cursor / Advanced Models</h3>
-        <div class="model-list">
-            <div class="model-item"><strong id="m-grok">grok-4.6-high</strong><span>Grok 4.6 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-grok')">Copy</button></div>
-            <div class="model-item"><strong id="m-composer">composer2.5</strong><span>Composer 2.5 <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-composer')">Copy</button></div>
-            <div class="model-item"><strong id="m-luna">gpt-5.6-luna-xhigh</strong><span>GPT 5.6 Luna <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-luna')">Copy</button></div>
-            <div class="model-item"><strong id="m-sol">gpt-5.6-sol-xhigh</strong><span>GPT 5.6 Sol <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-sol')">Copy</button></div>
-            <div class="model-item"><strong id="m-glm">glm-5.2-max</strong><span>GLM 5.2 Max <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-glm')">Copy</button></div>
-            <div class="model-item"><strong id="m-kimi">kimi-k3-high</strong><span>Kimi K3 High <span class="tag tag-cursor">cursor</span></span><button class="copy-btn" onclick="copyText('m-kimi')">Copy</button></div>
-        </div>
-
-        <h3>Antigravity / Gemini & Opus</h3>
-        <div class="model-list">
-            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3.7-flash</strong><span>Antigravity Gemini Flash <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-gemini')">Copy</button></div>
-            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-4.6</strong><span>Antigravity Claude Opus 4.6 <span class="tag tag-antigravity">antigravity</span></span><button class="copy-btn" onclick="copyText('m-opus')">Copy</button></div>
+        <!-- Inline Chat Panel for qwen3.8-flash-next -->
+        <div style="background:#0b1120;border:1px solid #1e293b;border-radius:0.5rem;padding:1.25rem;margin:1rem 0">
+            <h2 style="font-size:1.05rem;margin-bottom:0.4rem">Test Chat <span class="badge" style="background:rgba(56,189,248,.15);color:var(--accent);border:1px solid var(--accent)">qwen3.8-flash-next</span></h2>
+            <p style="color:var(--muted);font-size:0.8rem;margin-bottom:0.75rem;line-height:1.4">
+                Interactive web test for the canonical local model (Strata HIP • IQ3_S • 128K context).
+                API key is kept strictly in browser session memory and never persisted to localStorage or external trackers.
+                Retrieve your existing key from <code>~/.config/litellm/config.yaml</code> or server environment.
+            </p>
+            <div style="margin-bottom:0.6rem">
+                <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem" for="chat-key">LiteLLM API Key (in-memory only)</label>
+                <input type="password" id="chat-key" class="chat-input" placeholder="Bearer key for LiteLLM..." autocomplete="off" spellcheck="false">
+            </div>
+            <div style="margin-bottom:0.6rem">
+                <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem" for="chat-prompt">Prompt (non-streaming, max 512 tokens)</label>
+                <textarea id="chat-prompt" class="chat-textarea" rows="3" placeholder="Enter prompt, e.g. Calculate 17 * 23..."></textarea>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap">
+                <button id="chat-send-btn" class="btn btn-primary" onclick="sendChat()">Send</button>
+                <button id="chat-cancel-btn" class="btn" onclick="cancelChat()" disabled>Cancel</button>
+                <span id="chat-status" style="font-size:0.75rem;color:var(--muted)">Idle</span>
+                <span id="chat-timer" style="font-size:0.75rem;font-family:var(--mono);color:var(--accent)"></span>
+                <span id="chat-usage" style="font-size:0.72rem;font-family:var(--mono);color:var(--muted);margin-left:auto"></span>
+            </div>
+            <div id="chat-error" style="display:none;background:rgba(239,68,68,.15);border:1px solid #ef4444;color:#fca5a5;padding:0.5rem 0.75rem;border-radius:0.375rem;font-size:0.8rem;margin-bottom:0.75rem"></div>
+            <pre id="chat-output" style="min-height:3.5rem;white-space:pre-wrap;word-break:break-word;font-size:0.82rem;color:var(--text);margin-bottom:0.5rem">Ready. Response will appear here.</pre>
+            <p style="color:#64748b;font-size:0.7rem">
+                Notice: Cloudflare Quick Tunnel does not support SSE streaming; web requests execute with <code>stream: false</code>. Full SSE streaming is available on direct LAN / Tailnet endpoints.
+            </p>
         </div>
 
         <h3>Local 7900 XTX Models</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-fara">fara1.5</strong><span>27B Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-fara')">Copy</button></div>
-            <div class="model-item"><strong id="m-uncen">qwen3.8-uncensored</strong><span>27B Uncensored Vision <span class="tag tag-vision">vision</span> <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-uncen')">Copy</button></div>
-            <div class="model-item"><strong id="m-q38">qwen3.8-27b</strong><span>27B Dense <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q38')">Copy</button></div>
-            <div class="model-item"><strong id="m-q36">qwen3.6-35b</strong><span>35B MoE <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-q36')">Copy</button></div>
-            <div class="model-item"><strong id="m-bge">bge-small-en-v1.5-f16</strong><span>Embedding <span class="tag tag-local">local</span></span><button class="copy-btn" onclick="copyText('m-bge')">Copy</button></div>
+            <div class="model-item">
+                <strong id="m-qflash">qwen3.8-flash-next</strong>
+                <span>IQ3_S • 128K context (131072) • 56.1 tok/s decode • 1115.2 tok/s prefill <span class="tag tag-local">strata</span><span class="tag" style="background:#14532d;color:#86efac">qualified 56.1 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('qwen3.8-flash-next')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-q4b">qwen3.5-4b</strong>
+                <span>4B Dense • 102.5 tok/s decode • 739.2 tok/s prefill (71-tok) <span class="tag tag-local">llama.cpp</span><span class="tag" style="background:#14532d;color:#86efac">qualified 102.5 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('qwen3.5-4b')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-q36">qwen3.6-35b</strong>
+                <span>35B MoE • 76.5 tok/s decode • 423.3 tok/s prefill (71-tok) <span class="tag tag-local">llama.cpp</span><span class="tag" style="background:#14532d;color:#86efac">qualified 76.5 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('qwen3.6-35b')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-uncen">qwen3.8-uncensored</strong>
+                <span>27B Vision • 35.5 tok/s decode • 241.2 tok/s prefill (71-tok) <span class="tag tag-vision">vision</span> <span class="tag tag-local">llama.cpp</span><span class="tag" style="background:#14532d;color:#86efac">qualified 35.5 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('qwen3.8-uncensored')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-q38">qwen3.8-27b</strong>
+                <span>27B Dense • 30.8 tok/s decode • 209.9 tok/s prefill (71-tok) <span class="tag tag-local">llama.cpp</span><span class="tag" style="background:#14532d;color:#86efac">qualified 30.8 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('qwen3.8-27b')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-fara">fara1.5</strong>
+                <span>27B Vision • 30.2 tok/s decode • 206.9 tok/s prefill (71-tok) <span class="tag tag-vision">vision</span> <span class="tag tag-local">llama.cpp</span><span class="tag" style="background:#14532d;color:#86efac">qualified 30.2 tok/s</span></span>
+                <button class="copy-btn" onclick="copyModel('fara1.5')">Copy</button>
+            </div>
+            <div class="model-item">
+                <strong id="m-bge">bge-small-en-v1.5-f16</strong>
+                <span>Embedding • 384 dim <span class="tag tag-local">ollama</span><span class="tag" style="background:#1e293b;color:#94a3b8">embeddings</span></span>
+                <button class="copy-btn" onclick="copyModel('bge-small-en-v1.5-f16')">Copy</button>
+            </div>
+        </div>
+
+        <!-- Verified Benchmarks Table -->
+        <h3>Verified Benchmarks (Local Chat Models)</h3>
+        <p style="color:var(--muted);font-size:0.75rem;margin-bottom:0.5rem">
+            Qualification gate: strictly &gt;20 generated tokens/second. Qualification date: 2026-10-17 (factual static qualification run on RX 7900 XTX). Switch-ready measures managed backend activation time from cold stop. All 6 local chat models qualified.
+        </p>
+        <div style="overflow-x:auto">
+            <table class="bench-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Architecture</th>
+                        <th>Warm Decode</th>
+                        <th>Prefill Throughput</th>
+                        <th>Managed Switch-Ready</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color:var(--accent)">qwen3.5-4b</td>
+                        <td>4B Dense (llama.cpp)</td>
+                        <td style="color:#22c55e;font-weight:600">102.52 tok/s</td>
+                        <td>739.19 tok/s (71-tok)*</td>
+                        <td>3.08 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent)">qwen3.6-35b</td>
+                        <td>35B MoE (llama.cpp)</td>
+                        <td style="color:#22c55e;font-weight:600">76.50 tok/s</td>
+                        <td>423.29 tok/s (71-tok)*</td>
+                        <td>15.47 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent)">qwen3.8-flash-next</td>
+                        <td>IQ3_S / 128K (Strata HIP)</td>
+                        <td style="color:#22c55e;font-weight:600">56.10 tok/s</td>
+                        <td>1115.20 tok/s (4.2K-tok)†</td>
+                        <td>72.05 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent)">qwen3.8-uncensored</td>
+                        <td>27B Vision (llama.cpp)</td>
+                        <td style="color:#22c55e;font-weight:600">35.46 tok/s</td>
+                        <td>241.21 tok/s (71-tok)*</td>
+                        <td>11.54 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent)">qwen3.8-27b</td>
+                        <td>27B Dense (llama.cpp)</td>
+                        <td style="color:#22c55e;font-weight:600">30.82 tok/s</td>
+                        <td>209.89 tok/s (71-tok)*</td>
+                        <td>12.41 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent)">fara1.5</td>
+                        <td>27B Vision (llama.cpp)</td>
+                        <td style="color:#22c55e;font-weight:600">30.18 tok/s</td>
+                        <td>206.94 tok/s (71-tok)*</td>
+                        <td>12.57 s</td>
+                        <td><span class="badge badge-live">Qualified</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="footnote">
+            * <strong>llama.cpp workload:</strong> 3 matched runs of fresh 71-token prompts and 256 generated tokens each (cache_n0, median values).
+        </p>
+        <p class="footnote">
+            † <strong>Strata workload:</strong> 3 matched runs of fresh 4210-token prompts and 128 generated tokens each on HIP ROCm 7.2.1 (5 pool workers, MMQ enabled, reused 0). Decode runs: 36.8, 56.1, 62.4 tok/s &rarr; median 56.1 tok/s. Native 128K context (131072 max, not native 262144) verified with 107,827 tokens (82.3%) marker retrieval in 87.79s; context overflow (131,572 tokens) cleanly returns HTTP 400.
+        </p>
+        <p class="footnote">
+            ‡ <strong>LAN TTFT &amp; Streaming:</strong> Real LAN backend SSE first-content TTFT: 4226 prompt tokens in 4.65s (engine prefill 4.60s); 8846 prompt tokens in 8.46s (engine prefill 8.41s). Cloudflare Quick Tunnel remains non-streaming (<code>stream: false</code>).
+        </p>
+
+        <h3>Cursor / Advanced Models</h3>
+        <p style="color:var(--muted);font-size:0.75rem;margin-bottom:0.5rem">
+            Cursor CLI bridge routes configured. Status as of qualification: HTTP 500 / ActionRequiredError (monthly usage limit reached; resets 2026-10-22). Routes preserved in gateway.
+        </p>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-grok">grok-4.6-high</strong><span>Grok 4.6 High <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('grok-4.6-high')">Copy</button></div>
+            <div class="model-item"><strong id="m-composer">composer2.5</strong><span>Composer 2.5 <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('composer2.5')">Copy</button></div>
+            <div class="model-item"><strong id="m-luna">gpt-5.6-luna-xhigh</strong><span>GPT 5.6 Luna <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('gpt-5.6-luna-xhigh')">Copy</button></div>
+            <div class="model-item"><strong id="m-sol">gpt-5.6-sol-xhigh</strong><span>GPT 5.6 Sol <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('gpt-5.6-sol-xhigh')">Copy</button></div>
+            <div class="model-item"><strong id="m-glm">glm-5.2-max</strong><span>GLM 5.2 Max <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('glm-5.2-max')">Copy</button></div>
+            <div class="model-item"><strong id="m-kimi">kimi-k3-high</strong><span>Kimi K3 High <span class="tag tag-cursor">cursor</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">usage limit reached</span></span><button class="copy-btn" onclick="copyModel('kimi-k3-high')">Copy</button></div>
+        </div>
+
+        <h3>Antigravity / Gemini &amp; Opus</h3>
+        <p style="color:var(--muted);font-size:0.75rem;margin-bottom:0.5rem">
+            Provider qualification (2026-10-17): Gemini 3 Flash verified live (0.80s, content '391 blue'). Claude Opus 4.6 reported retired by upstream provider ("Claude Opus 4.6 is no longer available. Please switch to Claude Opus 5.5."). Gateway route preserved; advertising retired (never substituted with 5.5).
+        </p>
+        <div class="model-list">
+            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3-flash</strong><span>Gemini 3 Flash (canonical • verified 2026-10-17, 0.80s) <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#14532d;color:#86efac">verified 2026-10-17</span></span><button class="copy-btn" onclick="copyModel('antigravity-gemini-3-flash')">Copy</button></div>
+            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-4-6-thinking-high</strong><span>Claude Opus 4.6 (canonical ID) <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">upstream retired</span></span><button class="copy-btn" onclick="copyModel('antigravity-claude-opus-4-6-thinking-high')">Copy</button></div>
         </div>
 
         <h3>Whisper Audio</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-w1">whisper-1</strong><span>OpenAI alias <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-w1')">Copy</button></div>
-            <div class="model-item"><strong id="m-wturbo">whisper-large-v3-turbo</strong><span>Large V3 Turbo <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyText('m-wturbo')">Copy</button></div>
+            <div class="model-item"><strong id="m-w1">whisper-1</strong><span>OpenAI alias <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyModel('whisper-1')">Copy</button></div>
+            <div class="model-item"><strong id="m-wturbo">whisper-large-v3-turbo</strong><span>Large V3 Turbo <span class="tag tag-audio">audio</span></span><button class="copy-btn" onclick="copyModel('whisper-large-v3-turbo')">Copy</button></div>
         </div>
 
         <h3>Claude Code Aliases</h3>
         <div class="model-list">
-            <div class="model-item"><strong id="m-c37">claude-3-7-sonnet-20250219</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c37')">Copy</button></div>
-            <div class="model-item"><strong id="m-c35">claude-3-5-sonnet-20241022</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c35')">Copy</button></div>
-            <div class="model-item"><strong id="m-c3o">claude-3-opus-20240229</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyText('m-c3o')">Copy</button></div>
+            <div class="model-item"><strong id="m-c37">claude-3-7-sonnet-20250219</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyModel('claude-3-7-sonnet-20250219')">Copy</button></div>
+            <div class="model-item"><strong id="m-c35">claude-3-5-sonnet-20241022</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyModel('claude-3-5-sonnet-20241022')">Copy</button></div>
+            <div class="model-item"><strong id="m-c3o">claude-3-opus-20240229</strong><span>Alias → local GPU</span><button class="copy-btn" onclick="copyModel('claude-3-opus-20240229')">Copy</button></div>
         </div>
 
-        <h3>Setup</h3>
-        <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://sbjct-extension-modelling-gonna.trycloudflare.com</span>"
+        <!-- Operational Documentation -->
+        <h3>Setup &amp; Usage</h3>
+        <p style="color:var(--muted);font-size:0.8rem;margin-bottom:0.5rem">
+            Export environment variables to configure Anthropic CLI or OpenAI-compatible tooling.
+            Authentication uses your private key from <code>~/.config/litellm/config.yaml</code> or server environment.
+        </p>
+        <pre>export ANTHROPIC_BASE_URL="<span id="cli-url">https://devel-watches-porter-hydraulic.trycloudflare.com</span>"
 export ANTHROPIC_API_KEY="&lt;your-litellm-api-key&gt;"
 claude</pre>
-        <pre>export OPENAI_BASE_URL="<span id="oai-url">https://sbjct-extension-modelling-gonna.trycloudflare.com/v1</span>"
+        <pre>export OPENAI_BASE_URL="<span id="oai-url">https://devel-watches-porter-hydraulic.trycloudflare.com/v1</span>"
 export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
+        <div style="background:#0f172a;border:1px solid var(--border);border-radius:0.4rem;padding:0.75rem 1rem;margin:0.75rem 0;font-size:0.78rem;line-height:1.45">
+            <strong style="color:var(--accent);display:block;margin-bottom:0.25rem">Managed Switching &amp; Backend Architecture</strong>
+            <p style="color:var(--muted);margin-bottom:0.4rem">
+                • <strong>Serialized Execution:</strong> Local backends bind to <code>127.0.0.1</code> (ports 8080/8081 for llama.cpp, port 8090 for Strata HIP). The GPU lock is held exclusively per request/stream; systemd cgroups enforce mutual exclusion (<code>Conflicts=</code>).
+            </p>
+            <p style="color:var(--muted);margin-bottom:0.4rem">
+                • <strong>Idle Persistence:</strong> Once loaded, a model remains resident indefinitely (<code>idle_unload_s: 0</code>) to eliminate cold startup latency on subsequent prompts. Unloading occurs strictly on explicit model switches, controlled service stops, or failures.
+            </p>
+            <p style="color:var(--muted)">
+                • <strong>Streaming Support:</strong> Public Cloudflare Quick Tunnels do not support SSE streaming; web chat requests execute with <code>stream: false</code> (bounded to 512 tokens). Full native SSE streaming is supported directly on LAN (<code>192.168.0.12:8000</code>) and Tailscale (<code>100.64.91.97:8000</code>) routes.
+            </p>
+        </div>
     </div>
+
+    <!-- Unsloth Studio Card -->
     <div class="card">
         <h2>Unsloth Studio <span id="unsloth-badge" class="badge badge-unk">Checking...</span></h2>
         <div class="url-box">
-            <a id="unsloth-url" href="https://affiliate-ski-outstanding-pictures.trycloudflare.com" target="_blank"><span id="unsloth-text">https://affiliate-ski-outstanding-pictures.trycloudflare.com</span></a>
+            <a id="unsloth-url" href="https://sci-gzip-intersection-observed.trycloudflare.com" target="_blank"><span id="unsloth-text">https://sci-gzip-intersection-observed.trycloudflare.com</span></a>
             <button class="btn" onclick="copyText('unsloth-text')">Copy</button>
         </div>
-        <p style="color:var(--muted);font-size:0.85rem;">Fine-tuning &amp; LLM Studio Web UI (port 8888)</p>
+        <p style="color:var(--muted);font-size:0.85rem">Fine-tuning &amp; LLM Studio Web UI (port 8888)</p>
     </div>
 
+    <!-- Architecture Card -->
     <div class="card">
         <h2>Architecture</h2>
-        <div class="arch"><strong>LiteLLM Proxy (port 8000)</strong>Auth via <code>master_key</code> • Anthropic + OpenAI API compatible</div>
-        <div class="arch"><strong>Ollama (port 11434)</strong>Local GPU models: Fara 1.5, Qwen 3.8/3.6</div>
-        <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge (Grok, Composer, GPT 5.6, GLM, Kimi)</div>
-        <div class="arch"><strong>antigravity-proxy (port 8766)</strong>Google Antigravity (cloudcode-pa) → OpenAI-compatible bridge (Gemini Flash, Claude Opus 4.6)</div>
+        <div class="arch"><strong>LiteLLM Proxy (port 8000)</strong>Auth via <code>master_key</code> • Anthropic + OpenAI endpoints • Routes to local and cloud backends</div>
+        <div class="arch"><strong>Strata Server (port 8090)</strong><code>qwen3.8-flash-next</code> IQ3_S (128K context: 131072 tokens) via ROCm 7.2.1 / HIP (gfx1100)</div>
+        <div class="arch"><strong>llama-backend &amp; proxy (ports 8080/8081)</strong>Standalone llama.cpp (ROCm / HIP) for local GGUF models (Fara 1.5, Qwen 3.8/3.6)</div>
+        <div class="arch"><strong>Ollama (port 11434)</strong>Embeddings only (<code>bge-small-en-v1.5-f16</code>)</div>
+        <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge (Grok, Composer, Luna, Sol, GLM, Kimi)</div>
+        <div class="arch"><strong>antigravity-proxy (port 8766)</strong>Google Antigravity (cloudcode-pa) → OpenAI-compatible API bridge (Gemini 3 Flash, Claude Opus 4.6)</div>
         <div class="arch"><strong>Whisper Server (port 8001)</strong>Faster-Whisper large-v3-turbo + medium</div>
     </div>
 
-    <footer>Updated via GitHub Pages • <a href="endpoints.json" style="color:var(--accent)">endpoints.json</a></footer>
+    <!-- Observability Snapshot Card -->
+    <div class="card" style="padding:1rem 1.5rem">
+        <h2 style="font-size:1rem;margin-bottom:0.35rem">Observability Dashboard Snapshot</h2>
+        <p style="color:var(--muted);font-size:0.8rem">
+            View service health and history:
+            <a href="status.html" style="color:var(--accent);text-decoration:none;font-weight:600">Hourly Observability Snapshot</a>
+            <span style="color:#64748b;font-size:0.75rem">(refreshed at most hourly from local rig monitor)</span>
+        </p>
+    </div>
+
+    <footer>Updated via GitHub Pages • <a href="endpoints.json" style="color:var(--accent)">endpoints.json</a> • <a href="status.html" style="color:var(--accent)">status.html</a></footer>
     <div id="toast" class="toast">Copied!</div>
 
     <script>
+    let currentEndpoints = null;
+    let currentChatController = null;
+    let chatTimerId = null;
+    let activeChatSeq = 0;
+
     async function load(){
       try {
         const r = await fetch('endpoints.json?t=' + Date.now());
         const d = await r.json();
+        currentEndpoints = d;
+
         const u = (d.litellm_proxy && d.litellm_proxy.url) || d.anthropic_base_url || (d.openai_base_url ? d.openai_base_url.replace(/\/v1\/?$/, '') : '');
         if (u && u.startsWith('http')) {
           const urlEl = document.getElementById('llm-url');
@@ -133,8 +329,8 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
           const cliEl = document.getElementById('cli-url');
           if (cliEl) cliEl.textContent = u;
           const oaiEl = document.getElementById('oai-url');
-          if (oaiEl) oaiEl.textContent = u + '/v1';
-          check(u, 'llm-badge', '/health/readiness');
+          if (oaiEl) oaiEl.textContent = u.replace(/\/+$/, '') + '/v1';
+          checkLiteLLM(u);
         } else {
           const b = document.getElementById('llm-badge');
           if (b) { b.className = 'badge badge-down'; b.textContent = 'Offline'; }
@@ -144,8 +340,8 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
         if (unslothU && unslothU.startsWith('http')) {
           const unslothUrlEl = document.getElementById('unsloth-url');
           if (unslothUrlEl) unslothUrlEl.href = unslothU;
-          const unslothTextEl = document.getElementById('unsloth-text');
-          if (unslothTextEl) unslothTextEl.textContent = unslothU;
+          const textEl = document.getElementById('unsloth-text');
+          if (textEl) textEl.textContent = unslothU;
           checkUnsloth(unslothU);
         } else {
           const b = document.getElementById('unsloth-badge');
@@ -160,63 +356,267 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
       }
     }
 
-    
+    async function checkLiteLLM(u){
+      const b = document.getElementById('llm-badge');
+      if (!b) return;
+      b.className = 'badge badge-unk';
+      b.textContent = 'Checking...';
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      try {
+        if (!u || !u.startsWith('http')) { throw new Error('no url'); }
+        const res = await fetch(u.replace(/\/+$/, '') + '/health/readiness', { signal: controller.signal });
+        if (res.status !== 200) {
+          b.className = 'badge badge-down';
+          b.textContent = 'Down (HTTP ' + res.status + ')';
+          return;
+        }
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (_) {}
+        if (data && data.status === 'healthy') {
+          b.className = 'badge badge-live';
+          b.textContent = 'Live';
+        } else {
+          b.className = 'badge badge-down';
+          b.textContent = 'Unhealthy';
+        }
+      } catch (err) {
+        b.className = 'badge badge-unk';
+        if (err.name === 'AbortError') {
+          b.textContent = 'Timeout';
+        } else {
+          b.textContent = 'Unknown (Network/CORS)';
+        }
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
     async function checkUnsloth(u){
       const b = document.getElementById('unsloth-badge');
       if (!b) return;
       b.className = 'badge badge-unk';
       b.textContent = 'Checking...';
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        if (!u || !u.startsWith('http')) { throw new Error('no url'); }
         const res = await fetch(u.replace(/\/+$/, '') + '/api/health', { signal: controller.signal });
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error('http ' + res.status);
-        const data = await res.json();
-        if (!data || data.status !== 'healthy' || !String(data.service || '').includes('Unsloth')) {
-          throw new Error('not unsloth');
+        if (res.status !== 200) {
+          b.className = 'badge badge-down';
+          b.textContent = 'Down (HTTP ' + res.status + ')';
+          return;
         }
-        b.className = 'badge badge-live';
-        b.textContent = 'Live';
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (_) {}
+        if (data && data.status === 'healthy' && String(data.service || '').includes('Unsloth')) {
+          b.className = 'badge badge-live';
+          b.textContent = 'Live';
+        } else {
+          b.className = 'badge badge-down';
+          b.textContent = 'Unhealthy';
+        }
       } catch (e) {
         b.className = 'badge badge-down';
         b.textContent = 'Offline';
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
-    async function check(u, badgeId, path = ''){
-      const b = document.getElementById(badgeId);
-      if (!b) return;
-      b.className = 'badge badge-unk';
-      b.textContent = 'Checking...';
+    function cancelChat(){
+      activeChatSeq++;
+      if (currentChatController) {
+        currentChatController.abort();
+        currentChatController = null;
+      }
+      if (chatTimerId) {
+        clearInterval(chatTimerId);
+        chatTimerId = null;
+      }
+      const statusEl = document.getElementById('chat-status');
+      if (statusEl) statusEl.textContent = 'Cancelled';
+      const outputEl = document.getElementById('chat-output');
+      if (outputEl) outputEl.textContent = 'Request was cancelled by user.';
+      const sendBtn = document.getElementById('chat-send-btn');
+      if (sendBtn) sendBtn.disabled = false;
+      const cancelBtn = document.getElementById('chat-cancel-btn');
+      if (cancelBtn) cancelBtn.disabled = true;
+    }
+
+    async function sendChat(){
+      const thisSeq = ++activeChatSeq;
+      const keyInput = document.getElementById('chat-key');
+      const promptInput = document.getElementById('chat-prompt');
+      const sendBtn = document.getElementById('chat-send-btn');
+      const cancelBtn = document.getElementById('chat-cancel-btn');
+      const statusEl = document.getElementById('chat-status');
+      const timerEl = document.getElementById('chat-timer');
+      const usageEl = document.getElementById('chat-usage');
+      const errorEl = document.getElementById('chat-error');
+      const outputEl = document.getElementById('chat-output');
+
+      const apiKey = keyInput ? keyInput.value.trim() : '';
+      const prompt = promptInput ? promptInput.value.trim() : '';
+
+      if (!apiKey) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Please enter your LiteLLM API Key (held in memory only).';
+        return;
+      }
+      if (!prompt) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Please enter a prompt.';
+        return;
+      }
+
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+      outputEl.textContent = 'Sending request to qwen3.8-flash-next...';
+      statusEl.textContent = 'Pending...';
+      usageEl.textContent = '';
+
+      sendBtn.disabled = true;
+      cancelBtn.disabled = false;
+
+      const startTime = performance.now();
+      if (chatTimerId) clearInterval(chatTimerId);
+      timerEl.textContent = '0.0s';
+      chatTimerId = setInterval(() => {
+        const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+        timerEl.textContent = elapsed + 's';
+      }, 100);
+
+      currentChatController = new AbortController();
+
+      const litellmUrl = (currentEndpoints && currentEndpoints.litellm_proxy && currentEndpoints.litellm_proxy.url)
+        || (currentEndpoints && currentEndpoints.anthropic_base_url)
+        || document.getElementById('llm-text').textContent.trim();
+
+      const targetUrl = litellmUrl.replace(/\/+$/, '') + '/v1/chat/completions';
+
       try {
-        if (!u || !u.startsWith('http')) { throw new Error('no url'); }
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
-        await fetch(u.replace(/\/+$/, '') + path, { mode: 'no-cors', signal: controller.signal });
-        clearTimeout(timeoutId);
-        b.className = 'badge badge-live';
-        b.textContent = 'Live';
-      } catch(e) {
+        const res = await fetch(targetUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          body: JSON.stringify({
+            model: 'qwen3.8-flash-next',
+            messages: [{ role: 'user', content: prompt }],
+            stream: false,
+            max_tokens: 512,
+            reasoning_effort: 'none'
+          }),
+          signal: currentChatController.signal
+        });
+
+        // Parse json while timer keeps running
+        let data = null;
+        let parseErr = null;
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 6000);
-          await fetch(u, { mode: 'no-cors', signal: controller.signal });
-          clearTimeout(timeoutId);
-          b.className = 'badge badge-live';
-          b.textContent = 'Live';
-        } catch(err) {
-          b.className = 'badge badge-down';
-          b.textContent = 'Offline';
+          data = await res.json();
+        } catch (e) {
+          parseErr = e;
+        }
+
+        if (thisSeq !== activeChatSeq) {
+          return;
+        }
+
+        const elapsedSec = ((performance.now() - startTime) / 1000).toFixed(2);
+        if (chatTimerId) {
+          clearInterval(chatTimerId);
+          chatTimerId = null;
+        }
+        timerEl.textContent = elapsedSec + 's';
+
+        if (!res.ok) {
+          let errDetail = 'HTTP ' + res.status + ' ' + res.statusText;
+          if (data && data.error && data.error.message) {
+            errDetail = 'HTTP ' + res.status + ': ' + data.error.message;
+          }
+          statusEl.textContent = 'Failed';
+          errorEl.style.display = 'block';
+          errorEl.textContent = errDetail;
+          outputEl.textContent = 'Request failed: ' + errDetail;
+          return;
+        }
+
+        if (!data) {
+          statusEl.textContent = 'Failed';
+          errorEl.style.display = 'block';
+          errorEl.textContent = 'Failed to parse JSON response: ' + (parseErr ? parseErr.message : 'empty');
+          outputEl.textContent = 'Invalid JSON response from gateway.';
+          return;
+        }
+
+        statusEl.textContent = 'Completed';
+        const choice = data.choices && data.choices[0];
+        const msg = choice && choice.message;
+        const content = msg && typeof msg.content === 'string' ? msg.content.trim() : '';
+
+        if (content.length > 0) {
+          outputEl.textContent = msg.content;
+        } else {
+          const finishReason = (choice && choice.finish_reason) || 'unspecified';
+          outputEl.textContent = '[No text completion returned; finish_reason: ' + finishReason + ']';
+        }
+
+        if (data.usage) {
+          const promptTok = data.usage.prompt_tokens || 0;
+          const compTok = data.usage.completion_tokens || 0;
+          const totTok = data.usage.total_tokens || 0;
+          usageEl.textContent = 'Tokens: ' + promptTok + ' prompt + ' + compTok + ' completion = ' + totTok + ' total';
+        }
+      } catch (err) {
+        if (thisSeq !== activeChatSeq) {
+          return;
+        }
+        if (chatTimerId) {
+          clearInterval(chatTimerId);
+          chatTimerId = null;
+        }
+        if (err.name === 'AbortError') {
+          statusEl.textContent = 'Cancelled';
+          outputEl.textContent = 'Request was cancelled by user.';
+        } else {
+          statusEl.textContent = 'Error';
+          errorEl.style.display = 'block';
+          errorEl.textContent = 'Network or CORS error: ' + err.message;
+          outputEl.textContent = 'Error: ' + err.message;
+        }
+      } finally {
+        if (thisSeq === activeChatSeq) {
+          if (chatTimerId) {
+            clearInterval(chatTimerId);
+            chatTimerId = null;
+          }
+          sendBtn.disabled = false;
+          cancelBtn.disabled = true;
+          currentChatController = null;
         }
       }
+    }
+
+    function copyModel(name){
+      navigator.clipboard.writeText(name);
+      showToast();
     }
 
     function copyText(id){
       const el = document.getElementById(id);
       if (!el) return;
-      const t = el.textContent;
-      navigator.clipboard.writeText(t);
+      navigator.clipboard.writeText(el.textContent.trim());
+      showToast();
+    }
+
+    function showToast(){
       const toast = document.getElementById('toast');
       if (toast) {
         toast.classList.add('show');

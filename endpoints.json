@@ -1,10 +1,10 @@
 {
-  "anthropic_base_url": "https://sbjct-extension-modelling-gonna.trycloudflare.com",
-  "openai_base_url": "https://sbjct-extension-modelling-gonna.trycloudflare.com/v1",
+  "anthropic_base_url": "https://devel-watches-porter-hydraulic.trycloudflare.com",
+  "openai_base_url": "https://devel-watches-porter-hydraulic.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://sbjct-extension-modelling-gonna.trycloudflare.com"
+    "url": "https://devel-watches-porter-hydraulic.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://affiliate-ski-outstanding-pictures.trycloudflare.com",
+  "unsloth_studio_url": "https://sci-gzip-intersection-observed.trycloudflare.com",
   "models": {
     "grok-4.6-high": "openai/cursor-grok-4.6-high",
     "composer2.5": "openai/composer-2.5",
@@ -12,34 +12,20 @@
     "gpt-5.6-sol-xhigh": "openai/gpt-5.6-sol-xhigh",
     "glm-5.2-max": "openai/glm-5.2-max",
     "kimi-k3-high": "openai/kimi-k3-high",
-    "claude-opus-4.6": "openai/antigravity-claude-opus-4-6-thinking-high",
-    "fara1.5": "ollama_chat/fara1.5-27b:latest",
-    "qwen3.8-uncensored": "ollama_chat/qwen3.8-27b-uncensored:latest",
-    "qwen3.8-27b": "ollama_chat/qwen3.8-27b:latest",
-    "qwen3.6-35b": "ollama_chat/qwen3.6-35b:latest",
-    "bge-small-en-v1.5-f16": "ollama/bge-small-en-v1.5-f16.gguf:latest",
-    "claude-3-7-sonnet-20250219": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-5-sonnet-20241022": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
-    "claude-3-opus-20240229": "ollama_chat/Qwen3.5-4B-UD-Q4_K_XL.gguf:latest",
+    "antigravity-gemini-3-flash": "openai/antigravity-gemini-3-flash",
+    "fara1.5": "openai/Fara1.5-27B-Q4_K_M.gguf",
+    "qwen3.8-flash-next": "openai/qwen3.8-flash-next",
+    "qwen3.8-uncensored": "openai/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf",
+    "qwen3.6-35b": "openai/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "qwen3.8-27b": "openai/Qwen3.8-27B-Q4_K_M.gguf",
+    "qwen3.5-4b": "openai/Qwen3.5-4B-UD-Q4_K_XL.gguf",
     "whisper-1": "openai/whisper-1",
     "whisper-large-v3-turbo": "openai/whisper-large-v3-turbo",
-    "gemini-3.7-flash": "openai/antigravity-gemini-3-flash",
-    "antigravity-gemini-3.7-flash": "openai/antigravity-gemini-3-flash",
-    "antigravity-claude-opus-4.6": "openai/antigravity-claude-opus-4-6-thinking-high",
-    "gemini-4.7-flash": "openai/antigravity-gemini-3-flash"
+    "bge-small-en-v1.5-f16": "ollama/bge-small-en-v1.5-f16.gguf:latest",
+    "claude-3-7-sonnet-20250219": "openai/Qwen3.5-4B-UD-Q4_K_XL.gguf",
+    "claude-3-5-sonnet-20241022": "openai/Qwen3.5-4B-UD-Q4_K_XL.gguf",
+    "claude-3-opus-20240229": "openai/Qwen3.5-4B-UD-Q4_K_XL.gguf"
   },
-  "vision_models": [
-    "fara1.5",
-    "qwen3.8-uncensored"
-  ],
-  "audio_models": [
-    "whisper-1",
-    "whisper-large-v3-turbo"
-  ],
-  "antigravity_models": [
-    "antigravity-gemini-3.7-flash",
-    "antigravity-claude-opus-4.6"
-  ],
   "architecture": {
     "host": "jianq-7900xtx",
     "litellm": {
@@ -50,10 +36,26 @@
       "anthropic": "/v1/messages",
       "openai": "/v1/chat/completions"
     },
+    "strata": {
+      "service": "strata-qwen38.service",
+      "port": 8090,
+      "backend": "HIP (ROCm 7.2.1 / gfx1100)",
+      "model": "Qwen3.8-Flash-Next-GSQ-RCO-GGUF (IQ3_S)",
+      "context_window": 131072,
+      "kv_cache": "int8"
+    },
+    "llama_cpp": {
+      "service": "llama-backend.service",
+      "proxy_service": "llama-proxy.service",
+      "port": 8081,
+      "proxy_port": 8080,
+      "backend": "llama.cpp standalone (ROCm / HIP gfx1100)",
+      "models_dir": "/mnt/fast_models/unsloth"
+    },
     "ollama": {
       "service": "ollama.service",
       "port": 11434,
-      "models_dir": "/mnt/fast_models/ollama"
+      "role": "Embeddings (bge-small-en-v1.5-f16)"
     },
     "tunnel": {
       "service": "ollama-cloudflare-tunnel.service",
@@ -63,23 +65,9 @@
       "service": "unsloth-studio.service",
       "port": 8888
     },
-    "fara1.5": {
-      "multimodal": true,
-      "weights": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27B-Q4_K_M.gguf",
-      "mmproj": "/mnt/fast_models/unsloth/Fara1.5-27B-GGUF/Fara1.5-27.mmproj-q8_0.gguf",
-      "modelfile": "/home/jianqianggu/.config/litellm/Modelfile.fara1.5-27b",
-      "projector": "clip / qwen3vl_merger"
-    },
-    "qwen3.8_uncensored": {
-      "model": "Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf",
-      "weights": "/mnt/fast_models/unsloth/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf",
-      "mmproj": "/mnt/fast_models/unsloth/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF/mmproj-Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-BF16.gguf",
-      "multimodal": true,
-      "quantization": "IQ4_XS (15.7 GB)"
-    },
     "whisper_server": {
-      "port": 8001,
       "service": "whisper-server.service",
+      "port": 8001,
       "models": [
         "whisper-large-v3-turbo",
         "whisper-large-v3",
@@ -89,27 +77,82 @@
     "cursor_api_proxy": {
       "service": "cursor-api-proxy.service",
       "port": 8765,
-      "backend": "Cursor CLI (api2.cursor.sh)",
-      "auth": "agent login (keychain)",
-      "models_routed": [
-        "cursor-grok-4.6-high",
-        "composer-2.5",
-        "gpt-5.6-luna-xhigh",
-        "gpt-5.6-sol-xhigh",
-        "glm-5.2-max",
-        "kimi-k3-high"
-      ]
+      "backend": "Cursor CLI (api2.cursor.sh)"
     },
     "antigravity_proxy": {
       "service": "antigravity-proxy.service",
       "port": 8766,
-      "backend": "Google Antigravity (cloudcode-pa.googleapis.com)",
-      "auth": "Google OAuth (consumer, keychain token)",
-      "models_routed": [
-        "antigravity-gemini-3-flash",
-        "antigravity-claude-opus-4-6-thinking-high"
-      ]
+      "backend": "Google Antigravity (cloudcode-pa.googleapis.com)"
     }
   },
-  "updated_at": "2026-10-17T09:42:51.970577+00:00"
+  "benchmarks": {
+    "qwen3.5-4b": {
+      "decode_tok_s": 102.5193735585716,
+      "prefill_tok_s": 739.1906383067329,
+      "cold_load_s": 3.082347373000175,
+      "context_tokens": 32768,
+      "quant": "UD-Q4_K_XL",
+      "backend": "llama.cpp-b10107 ROCm/HIP",
+      "measured_at": "2026-10-17T10:33:23.479350+00:00"
+    },
+    "qwen3.6-35b": {
+      "decode_tok_s": 76.49502199680096,
+      "prefill_tok_s": 423.2892556070922,
+      "cold_load_s": 15.472082351999916,
+      "context_tokens": 32768,
+      "quant": "UD-Q4_K_XL",
+      "backend": "llama.cpp-b10107 ROCm/HIP",
+      "measured_at": "2026-10-17T10:33:23.479350+00:00"
+    },
+    "qwen3.8-27b": {
+      "decode_tok_s": 30.8210041290514,
+      "prefill_tok_s": 209.8933682564365,
+      "cold_load_s": 12.414623179000046,
+      "context_tokens": 32768,
+      "quant": "Q4_K_M",
+      "backend": "llama.cpp-b10107 ROCm/HIP",
+      "measured_at": "2026-10-17T10:33:23.479350+00:00"
+    },
+    "qwen3.8-uncensored": {
+      "decode_tok_s": 35.45550209838403,
+      "prefill_tok_s": 241.21354193208649,
+      "cold_load_s": 11.538427418000083,
+      "context_tokens": 32768,
+      "quant": "IQ4_XS",
+      "backend": "llama.cpp-b10107 ROCm/HIP",
+      "measured_at": "2026-10-17T10:33:23.479350+00:00"
+    },
+    "fara1.5": {
+      "decode_tok_s": 30.183009253096674,
+      "prefill_tok_s": 206.94459422828612,
+      "cold_load_s": 12.566669375999936,
+      "context_tokens": 32768,
+      "quant": "Q4_K_M",
+      "backend": "llama.cpp-b10107 ROCm/HIP",
+      "measured_at": "2026-10-17T10:33:23.479350+00:00"
+    },
+    "qwen3.8-flash-next": {
+      "decode_tok_s": 56.1,
+      "prefill_tok_s": 1115.2,
+      "ttft_4k_s": 4.6485,
+      "ttft_8k_s": 8.457799999999999,
+      "cold_load_s": 72.05,
+      "context_tokens": 131072,
+      "quant": "IQ3_S",
+      "backend": "Strata 0.1.40.3 HIP ROCm 7.2.1 gfx1100",
+      "measured_at": "2026-10-17T11:01:17.016633+00:00"
+    }
+  },
+  "vision_models": [
+    "fara1.5",
+    "qwen3.8-uncensored"
+  ],
+  "audio_models": [
+    "whisper-1",
+    "whisper-large-v3-turbo"
+  ],
+  "antigravity_models": [
+    "antigravity-gemini-3-flash"
+  ],
+  "updated_at": "2026-10-17T11:11:05.656839+00:00"
 }
