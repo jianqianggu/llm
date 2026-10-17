@@ -229,11 +229,11 @@
 
         <h3>Antigravity / Gemini &amp; Opus</h3>
         <p style="color:var(--muted);font-size:0.75rem;margin-bottom:0.5rem">
-            Provider qualification (2026-10-17): Gemini 3 Flash verified live (0.80s, content '391 blue'). Claude Opus 4.6 reported retired by upstream provider ("Claude Opus 4.6 is no longer available. Please switch to Claude Opus 5.5."). Gateway route preserved; advertising retired (never substituted with 5.5).
+            Qualification (UTC 2026-10-17): Gemini 3 Flash returned '391 blue'. Opus 5.5 returned '391' non-streaming and 'Paris' over LAN SSE through LiteLLM, both with <code>finish_reason: stop</code>. Provider throttling and an initial <code>content_filter</code> response were observed; these are dated checks, not a continuous availability guarantee.
         </p>
         <div class="model-list">
-            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3-flash</strong><span>Gemini 3 Flash (canonical • verified 2026-10-17, 0.80s) <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#14532d;color:#86efac">verified 2026-10-17</span></span><button class="copy-btn" onclick="copyModel('antigravity-gemini-3-flash')">Copy</button></div>
-            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-4-6-thinking-high</strong><span>Claude Opus 4.6 (canonical ID) <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#7f1d1d;color:#fca5a5">upstream retired</span></span><button class="copy-btn" onclick="copyModel('antigravity-claude-opus-4-6-thinking-high')">Copy</button></div>
+            <div class="model-item"><strong id="m-gemini">antigravity-gemini-3-flash</strong><span>Gemini 3 Flash (canonical • verified UTC 2026-10-17, 0.80s) <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#14532d;color:#86efac">verified 2026-10-17</span></span><button class="copy-btn" onclick="copyModel('antigravity-gemini-3-flash')">Copy</button></div>
+            <div class="model-item"><strong id="m-opus">antigravity-claude-opus-5-5-high</strong><span>Claude Opus 5.5 High <span class="tag tag-antigravity">antigravity</span><span class="tag" style="background:#14532d;color:#86efac">verified 2026-10-17</span></span><button class="copy-btn" onclick="copyModel('antigravity-claude-opus-5-5-high')">Copy</button></div>
         </div>
 
         <h3>Whisper Audio</h3>
@@ -268,8 +268,11 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
             <p style="color:var(--muted);margin-bottom:0.4rem">
                 • <strong>Idle Persistence:</strong> Once loaded, a model remains resident indefinitely (<code>idle_unload_s: 0</code>) to eliminate cold startup latency on subsequent prompts. Unloading occurs strictly on explicit model switches, controlled service stops, or failures.
             </p>
-            <p style="color:var(--muted)">
+            <p style="color:var(--muted);margin-bottom:0.4rem">
                 • <strong>Streaming Support:</strong> Public Cloudflare Quick Tunnels do not support SSE streaming; web chat requests execute with <code>stream: false</code> (bounded to 512 tokens). Full native SSE streaming is supported directly on LAN (<code>192.168.0.12:8000</code>) and Tailscale (<code>100.64.91.97:8000</code>) routes.
+            </p>
+            <p style="color:var(--muted)">
+                • <strong>Opus 5.5:</strong> <code>antigravity-claude-opus-5-5-high</code> maps to exact upstream <code>claude-opus-5-5-high</code>; the retired 4.6 route has no alias. The existing <code>top_p</code> drop rule is retained. The bridge runs its locked local package directly with Bun; <code>patchedDependencies</code> preserves the native tier ID and configured port across reinstalls, without waiting for a quota-cache refresh.
             </p>
         </div>
     </div>
@@ -292,7 +295,7 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
         <div class="arch"><strong>llama-backend &amp; proxy (ports 8080/8081)</strong>Standalone llama.cpp (ROCm / HIP) for local GGUF models (Fara 1.5, Qwen 3.8/3.6)</div>
         <div class="arch"><strong>Ollama (port 11434)</strong>Embeddings only (<code>bge-small-en-v1.5-f16</code>)</div>
         <div class="arch"><strong>cursor-api-proxy (port 8765)</strong>Cursor CLI → OpenAI-compatible API bridge (Grok, Composer, Luna, Sol, GLM, Kimi)</div>
-        <div class="arch"><strong>antigravity-proxy (port 8766)</strong>Google Antigravity (cloudcode-pa) → OpenAI-compatible API bridge (Gemini 3 Flash, Claude Opus 4.6)</div>
+        <div class="arch"><strong>antigravity-proxy (port 8766)</strong>Google Antigravity (cloudcode-pa) → OpenAI-compatible API bridge (Gemini 3 Flash, Claude Opus 5.5 via persistent bridge patch)</div>
         <div class="arch"><strong>Whisper Server (port 8001)</strong>Faster-Whisper large-v3-turbo + medium</div>
     </div>
 

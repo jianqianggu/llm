@@ -202,12 +202,8 @@ def check_http(url: str, auth_type: Optional[str] = None, timeout: float = 5.0) 
     """Perform read-only GET request and parse whole response JSON without truncation."""
     t0 = time.time()
     headers = {}
-    if auth_type == "cursor" and KEYS["cursor"]:
-        headers["Authorization"] = f"Bearer {KEYS['cursor']}"
-    elif auth_type == "litellm" and KEYS["litellm"]:
-        headers["Authorization"] = f"Bearer {KEYS['litellm']}"
-    elif auth_type == "backend" and KEYS["backend"]:
-        headers["Authorization"] = f"Bearer {KEYS['backend']}"
+    if auth_type and KEYS.get(auth_type):
+        headers["Authorization"] = f"Bearer {KEYS[auth_type]}"
 
     try:
         req = urllib.request.Request(url, headers=headers)
