@@ -13,6 +13,7 @@
     "glm-5.2-max": "openai/glm-5.2-max",
     "kimi-k3-high": "openai/kimi-k3-high",
     "antigravity-gemini-3-flash": "openai/antigravity-gemini-3-flash",
+    "antigravity-claude-opus-5-5-high": "openai/antigravity-claude-opus-5-5-high",
     "fara1.5": "openai/Fara1.5-27B-Q4_K_M.gguf",
     "qwen3.8-flash-next": "openai/qwen3.8-flash-next",
     "qwen3.8-uncensored": "openai/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ4_XS.gguf",
@@ -152,7 +153,8 @@
     "whisper-large-v3-turbo"
   ],
   "antigravity_models": [
-    "antigravity-gemini-3-flash"
+    "antigravity-gemini-3-flash",
+    "antigravity-claude-opus-5-5-high"
   ],
-  "updated_at": "2026-10-17T11:11:05.656839+00:00"
+  "updated_at": "2026-10-17T16:16:02.984370+00:00"
 }
