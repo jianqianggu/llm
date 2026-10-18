@@ -281,6 +281,9 @@ export OPENAI_API_KEY="&lt;your-litellm-api-key&gt;"</pre>
             <p style="color:var(--muted);margin-bottom:0.4rem">
                 • <strong>Streaming Support:</strong> Public Cloudflare Quick Tunnels do not support SSE streaming; web chat requests execute with <code>stream: false</code> (bounded to 512 tokens). Full native SSE streaming is supported directly on LAN (<code>192.168.0.12:8000</code>) and Tailscale (<code>100.64.91.97:8000</code>) routes.
             </p>
+            <p style="color:var(--muted);margin-bottom:0.4rem">
+                • <strong>Context Scaling &amp; PCIe 4.0 Upgrade:</strong> Qwen3.8-Flash-Next natively supports 256K (262,144) context. It is currently deployed at 128K (131,072) to maximize decode speed (56.1 tok/s) and preserve VRAM expert cache slots on the current PCIe 3.0 host. A prepared 256K configuration is verified and documented in <code>/mnt/fast_models/strata/UPGRADE-PCIE4-256K.md</code> for cutover when upgrading to PCIe 4.0.
+            </p>
             <p style="color:var(--muted)">
                 • <strong>Opus 5.5:</strong> <code>antigravity-claude-opus-5-5-high</code> maps to exact upstream <code>claude-opus-5-5-high</code>; the retired 4.6 route has no alias. The existing <code>top_p</code> drop rule is retained. The bridge runs its locked local package directly with Bun; <code>patchedDependencies</code> preserves the native tier ID and configured port across reinstalls, without waiting for a quota-cache refresh.
             </p>
