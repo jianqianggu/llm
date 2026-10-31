@@ -1,10 +1,10 @@
 {
-  "anthropic_base_url": "https://devel-watches-porter-hydraulic.trycloudflare.com",
-  "openai_base_url": "https://devel-watches-porter-hydraulic.trycloudflare.com/v1",
+  "anthropic_base_url": "https://deaf-proud-cooperation-tells.trycloudflare.com",
+  "openai_base_url": "https://deaf-proud-cooperation-tells.trycloudflare.com/v1",
   "litellm_proxy": {
-    "url": "https://devel-watches-porter-hydraulic.trycloudflare.com"
+    "url": "https://deaf-proud-cooperation-tells.trycloudflare.com"
   },
-  "unsloth_studio_url": "https://sci-gzip-intersection-observed.trycloudflare.com",
+  "unsloth_studio_url": "https://houston-highs-subjects-subscriptions.trycloudflare.com",
   "models": {
     "grok-4.7-xhigh": "openai/cursor-grok-4.7-xhigh",
     "grok-4.7": "openai/cursor-grok-4.7-xhigh",
@@ -167,7 +167,7 @@
     "antigravity-gemini-3-flash",
     "antigravity-claude-opus-5-5-high"
   ],
-  "updated_at": "2026-10-18T01:13:34.641410+00:00",
+  "updated_at": "2026-10-31T01:08:07.331464+00:00",
   "codex_models": [
     "gpt-6-sol",
     "6.1-sol"
